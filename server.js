@@ -4,6 +4,7 @@ const AdminService = require('./server/controllers/adminController');
 const BookService = require('./server/controllers/booksController');
 const ejs = require('ejs');
 const cors = require("cors");
+const path = require('path')
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.set('view engine', 'ejs');
 app.use(AuthController);
 app.use(AdminService);
 app.use(BookService);
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.static(__dirname + '/client/public'));
 
 app.options('*', cors());
