@@ -1,0 +1,65 @@
+.wrapper {
+  display: flex;
+  background: #212121;
+}
+.sidebar {
+  border: 1px solid black;
+  padding: 5px;
+  background-color: #15191b;
+  color: #ccc;
+  width: 300px;
+  height:100vh;
+  position: sticky;
+  z-index: 1;
+  overflow-y: hidden;
+  transition: 0.5s;
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: 0;
+  }
+}
+.main {
+  width: 100%;
+  background: #212121;
+  border: 1px solid black;
+  padding: 10px;
+  color: #ccc;
+margin-bottom: 85px;
+align-items: stretch
+}
+.wrapper#diplaySidebar .sidebar{
+  width: 250px;
+  position: fixed;
+  font-size: 15px;
+}
+.navLink  {
+  color: #9e9e9e;
+  font-size: 15px;
+}
+.librarian{
+  color: #ccc;
+  border: 2px solid #000000;
+  background: #212121;
+  height: 70px;
+  padding: 5px;
+}
+
+.footer{
+  background: #333;
+  width: 100%;
+  border: 2px solid #212121;
+  margin: auto;
+  bottom: 0px;
+  color: #ccc;
+  text-align: center;
+  opacity: 0.89;
+  position: fixed
+}
+.footer p > a{
+  color: #ccc
+}
+html, body{
+  background: #212121;
+  margin: 0
+}
