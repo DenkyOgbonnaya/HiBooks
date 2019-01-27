@@ -23,7 +23,8 @@
     "mongoose": "^5.3.4",
     "nodemailer": "^5.0.0"
   },
-  "engine": {
+  "engines": {
+    "npm": "6.4.1",
     "node": "8.10.0"
 }
 }
