@@ -1,5 +1,6 @@
 import React from "react";
 import {addBook, modifyBook} from '../../redux/actions/bookActions';
+import actionType from '../../redux/actions/actionType';
 import {connect} from 'react-redux';
 import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
@@ -28,6 +29,7 @@ class AddBook extends React.Component {
       case 'EDIT_BOOK' :
         const _id = this.props._id
         this.props.modifyBook(_id, this.state);
+        this.props.toggleRenderAddBooks();
         break;
       case 'ADD_BOOK' :
         this.props.addBook(this.state);
@@ -121,7 +123,8 @@ class AddBook extends React.Component {
 const mapDispatchToProps = dispactch => {
   return{
     addBook: book => dispactch(addBook(book)),
-    modifyBook: (_id, newData) => dispactch(modifyBook(_id, newData))
+    modifyBook: (_id, newData) => dispactch(modifyBook(_id, newData)),
+    toggleRenderAddBooks: () => dispactch({type: actionType.TOGGLE_RENDER_ADD_BOOK})
   }
 }
 export default connect(null, mapDispatchToProps)(AddBook)

@@ -5,7 +5,8 @@ const initState = {
     rentedBooks: [],
     rentedLogs: [],
     availableBooks: [],
-    booksCounter: 0
+    booksCounter: 0,
+    renderAddBooks: false
 }
 const bookReducer = (state = initState, action) => {
     switch(action.type){
@@ -44,6 +45,11 @@ const bookReducer = (state = initState, action) => {
         case actionType.DELETE_BOOK :
         return{
             ...state,
+        }
+        case actionType.TOGGLE_RENDER_ADD_BOOK :
+        return{
+            ...state,
+            renderAddBooks: !state.renderAddBooks
         }
         default : return state
     }

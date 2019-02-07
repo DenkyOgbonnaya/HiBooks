@@ -10,7 +10,7 @@ class BorrowedHistory extends Component{
     }
 
     render(){
-        if(this.props.rentedLogs.legnth === 0)
+        if(this.props.rentedLogs.legnth != 0)
         return(
             <div>
                 <h3 style={{border:'2px solid #333', background:'#212121', height:'40px'}}> Your borrownng logs </h3>

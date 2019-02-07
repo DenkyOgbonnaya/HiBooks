@@ -16,7 +16,7 @@ class Login extends Component{
         this.props.history.push('/');
         e.preventDefault();
     }
-    onChange = (e)=> {
+    onChange = (e)=> { 
         this.setState({
             [e.target.id]: e.target.value
         })

@@ -2,15 +2,15 @@ import React from 'react'
 
 const About = () => 
     <div> 
-        <h3> About Hello-Books </h3>
-        <p> Hello-Books is a simple application that helps manage a library and its processes like stocking,
+        <h3> About HiBooks </h3>
+        <p> HiBooks is a simple application that helps manage a library and its processes like stocking,
             tracking and renting books. With this application users are able to find, rent and return books. </p>
         <p>Developed by <i>Dennis Ogbonnaya </i> as part of my pet projects. <br /> 
         I am an experienced software devoloper and freelancer, focused in building dynamic, responsive and
         scalable websites/web apps for small, medium and large scale businesses, and cooperate orgainizations.
         using modern day javascript tools, frameworks and libraries, which include but not limited to Node/
         Express, React Js, Es6, Mongo db and JQuery.
-        i am currently available for hiering, full time remote or onsite job offers.
+        i am currently available for hiring, full time remote or onsite job offers.
          </p>
           Contact: <br /> 
          <ul >

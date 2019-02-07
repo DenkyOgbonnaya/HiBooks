@@ -9,15 +9,16 @@ import {
 import AddBook from './adminViews/addBooks'
 import {connect} from 'react-redux';
 import {getAllBooks, deleteBook} from '../redux/actions/bookActions';
+import actionType from '../redux/actions/actionType';
 
 class AllBooks extends Component{
         state= {
-            shouldRenderAddBook: false,
             book: {},
             currentPage: 1,
             booksPerPage: 3,
             searchedTerm: ''
         }
+        topRef = React.createRef();
     
     componentDidMount(){
         this.props.getAllBooks();
@@ -44,15 +45,16 @@ class AllBooks extends Component{
         
     }
     renderAddBooks = () => {
-        if(this.state.shouldRenderAddBooks)
+        if(this.props.renderAddBooks)
             return <AddBook newState = {this.state.book} _id= {this.state.book._id} action= 'EDIT_BOOK'/>
 
     }
     modifyBook = book => {
         this.setState({
             book: book,
-            shouldRenderAddBooks: true
         });
+        this.props.toggleRenderAddBooks();
+        window.scrollTo(0, this.topRef.current.offsetTop);
     }
     handleClick = event => {
         this.setState({
@@ -133,9 +135,9 @@ class AllBooks extends Component{
             <div>There is currently no book in the library </div>
             )
         return(
-            <div>
-                <SearchField value= {this.state.searchedTerm} onChange= {this.onChange} />
+            <div ref= {this.topRef}>
                 {this.renderAddBooks()}
+                <SearchField value= {this.state.searchedTerm} onChange= {this.onChange} />
                 <br/>
                 <div style={{border: "1px solid grey"}}> <span style={{color: 'white'}}>All books </span>
                   <span style= {{float: "right", color: 'white'}}>{this.props.allBooks.length}</span></div>
@@ -173,13 +175,15 @@ class AllBooks extends Component{
         return{
             user: state.auth.currentUser,
             allBooks: state.books.allBooks,
-            showButtonGroup: state.auth.showButtonGroup
+            showButtonGroup: state.auth.showButtonGroup,
+            renderAddBooks: state.books.renderAddBooks
         }
     }
     const mapDispatchToprops = dispatch => {
         return{
             getAllBooks: () => dispatch(getAllBooks()),
-            deleteBook: _id => dispatch(deleteBook(_id))
+            deleteBook: _id => dispatch(deleteBook(_id)),
+            toggleRenderAddBooks: () => dispatch({type: actionType.TOGGLE_RENDER_ADD_BOOK})
         }
     }   
 

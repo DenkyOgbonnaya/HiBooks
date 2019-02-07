@@ -27,5 +27,5 @@ app.use('/api/books', BookService);
 //listening port
 app.listen(port, (err) =>{
     if(err) throw err ;
-        console.log(`hellobooks listening on port ${port}`);
+        console.log(`HiBooks listening on port ${port}`);
 } );

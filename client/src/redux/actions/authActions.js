@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import swal from 'sweetalert';
 
 
-const hostUrl = 'http://localhost:8080/api';
 export const signUp = userData => {
     return dispatch => {
         fetch("api/users/signUp", {
@@ -81,7 +80,7 @@ export const logout = () => {
 export const authToken = token => {
     const userToken = `Bearer ${token}`
     return dispatch => {
-        fetch(`${hostUrl}/users/verifyUser`,{
+        fetch(`api/users/verifyUser`,{
             withCredentials: true,
             credentials: 'include',
             headers: {
