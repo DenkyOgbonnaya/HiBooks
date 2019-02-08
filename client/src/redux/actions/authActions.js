@@ -80,7 +80,7 @@ export const logout = () => {
 export const authToken = token => {
     const userToken = `Bearer ${token}`
     return dispatch => {
-        fetch(`api/users/verifyUser`,{
+        fetch(`api/users/verifyUser`, {
             withCredentials: true,
             credentials: 'include',
             headers: {

@@ -53,6 +53,7 @@ class AllBooks extends Component{
         this.setState({
             book: book,
         });
+        
         this.props.toggleRenderAddBooks();
         window.scrollTo(0, this.topRef.current.offsetTop);
     }
