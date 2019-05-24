@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import {connect} from 'react-redux';
 import {signUp, userNameExist, emailExist} from '../../redux/actions/authActions';
 import {Form, FormGroup, Label, Input, Button, FormText, FormFeedback} from 'reactstrap';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import '../../styles/authviews.css'
 
 class SignUp extends Component{
         state ={
@@ -112,64 +113,66 @@ class SignUp extends Component{
     render(){
         const inputStyle = { backgroundColor: '#333', borderColor: '#333',borderRadius: '10px',color:'#ccc' };
         return(
-            <div className= 'signUp'> 
+            <div className= 'authForm'> 
             <hr />
-                <p> Create an account </p>
-                <Form onSubmit ={this.handleSignup}> 
-                    <FormGroup>
-                        <Label for='name'>Name</Label>
-                        <Input  type= "text" name="name" placeholder= "Enter name" 
-                        valid={!this.state.nameExist}
-                        invalid={this.state.nameExist}
-                        onChange={this.handleInputChange}
-                        value= {this.state.name}
-                        onFocus= {this.onFocus}
-                        onBlur= {this.onBlur}
-                        style= {inputStyle}/>
-                        <FormText> {this.state.nameError}</FormText>
-                        <FormFeedback valid > {this.state.nameMessage} </FormFeedback>
-                        <FormFeedback > {this.state.nameMessage} </FormFeedback>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for= 'location'>Location</Label>
-                        <Input type= "text" name="location" placeholder= "Enter your location" 
-                        onChange={this.handleInputChange}
-                        onFocus = {this.onFocus}
-                        value= {this.state.location}
-                        onBlur = {this.onBlur}
-                        style= {inputStyle}
-                        />
-                        <FormText> {this.state.locError}</FormText>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for='email'>Email</Label> 
-                        <Input type= "email" name="email" placeholder= "Enter email" 
-                         valid={!this.state.emailExist}
-                         invalid={this.state.emailExist}
-                        onChange={this.handleInputChange}
-                        onFocus = {this.onFocus}
-                        value= {this.state.email}
-                        onBlur= {this.onBlur}
-                        style= {inputStyle}
-                        />
-                        <FormText> {this.state.emailError}</FormText>
-                        <FormFeedback valid >{this.state.emailMessage} </FormFeedback>
-                        <FormFeedback > {this.state.emailMessage} </FormFeedback>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for='password'>Password</Label>
-                        <Input type= "password" name="password" placeholder= "Enter password" 
-                        onChange={this.handleInputChange}
-                        onFocus = {this.onFocus}
-                        value= {this.state.password}
-                        onBlur= {this.onBlur}
-                        style= {inputStyle}
-                        />
-                        <FormText> {this.state.passwordError}</FormText>
-                    </FormGroup>
-                    <Button type= "submit" >Create account</Button>
-                </Form>
-                <p>Already has an account? <Link to="/login" style= {{color: "steelblue"}}> Login instead </Link></p>
+                <div className='form'> 
+                <h5> Create an account </h5>
+                    <Form onSubmit ={this.handleSignup}> 
+                        <FormGroup>
+                            <Label for='name'>Name</Label>
+                            <Input  type= "text" name="name" placeholder= "Enter name" 
+                            valid={!this.state.nameExist}
+                            invalid={this.state.nameExist}
+                            onChange={this.handleInputChange}
+                            value= {this.state.name}
+                            onFocus= {this.onFocus}
+                            onBlur= {this.onBlur}
+                            style= {inputStyle}/>
+                            <FormText> {this.state.nameError}</FormText>
+                            <FormFeedback valid > {this.state.nameMessage} </FormFeedback>
+                            <FormFeedback > {this.state.nameMessage} </FormFeedback>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for= 'location'>Location</Label>
+                            <Input type= "text" name="location" placeholder= "Enter your location" 
+                            onChange={this.handleInputChange}
+                            onFocus = {this.onFocus}
+                            value= {this.state.location}
+                            onBlur = {this.onBlur}
+                            style= {inputStyle}
+                            />
+                            <FormText> {this.state.locError}</FormText>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for='email'>Email</Label> 
+                            <Input type= "email" name="email" placeholder= "Enter email" 
+                            valid={!this.state.emailExist}
+                            invalid={this.state.emailExist}
+                            onChange={this.handleInputChange}
+                            onFocus = {this.onFocus}
+                            value= {this.state.email}
+                            onBlur= {this.onBlur}
+                            style= {inputStyle}
+                            />
+                            <FormText> {this.state.emailError}</FormText>
+                            <FormFeedback valid >{this.state.emailMessage} </FormFeedback>
+                            <FormFeedback > {this.state.emailMessage} </FormFeedback>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for='password'>Password</Label>
+                            <Input type= "password" name="password" placeholder= "Enter password" 
+                            onChange={this.handleInputChange}
+                            onFocus = {this.onFocus}
+                            value= {this.state.password}
+                            onBlur= {this.onBlur}
+                            style= {inputStyle}
+                            />
+                            <FormText> {this.state.passwordError}</FormText>
+                        </FormGroup>
+                        <Button type= "submit" >Create account</Button>
+                    </Form>
+                    <p>Already has an account? <Link to="/login" style= {{color: "steelblue"}}> Login instead </Link></p>
+                </div>
             </div>
         )
     }
