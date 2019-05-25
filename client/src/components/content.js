@@ -11,6 +11,7 @@ import Notifications from './notifications';
 import About from './about';
 import Contact from "./contact";
 import ManageUsers from "./adminViews/manageusers";
+import BooksDashboard from './adminViews/books/bookdashboard';
 import Footer from './footer'
 class Content extends Component{
 
@@ -25,7 +26,7 @@ class Content extends Component{
                     <Route exact path= {`/${this.props.user.name}`}  component= {UserProfile}/>
                     <Route exact path= {`/${this.props.user.name}/changePassword`}  component= {ChangePassword}/>
                     <Route exact path= "/notifications" component={Notifications} />
-                    <Route exact path= "/manageUsers" component= {ManageUsers}/>
+                    <Route exact path= "/manageUsers" component= {BooksDashboard}/>
                     <Route exact path= "/about" component={About} />
                     <Route exact path= "/contact" component= {Contact}/>
                     <Route exact path= "/" component={AllBooks} /> 

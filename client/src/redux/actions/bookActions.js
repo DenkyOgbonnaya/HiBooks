@@ -73,12 +73,19 @@ export const modifyBook = (_id, newData ) => {
 */
 export const deleteBook = (_id) => {
     return (dispatch) => {
+        dispatch({
+            type: actionType.DELETE_BOOK,
+            bookId: _id
+        })
         fetch(`api/admin/delete/${_id}`,{
         method: 'DELETE'
         }).then(res => {
             if(res.status === 200){
                 swal('book deleted')
-                dispatch({type: actionType.DELETE_BOOK})
+                dispatch({
+                    type: actionType.DELETE_BOOK,
+                    bookId: _id
+                })
             }
                 
     }).catch(err =>{

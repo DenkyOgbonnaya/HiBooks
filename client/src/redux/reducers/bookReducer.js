@@ -6,6 +6,7 @@ const initState = {
     rentedLogs: [],
     availableBooks: [],
     booksCounter: 0,
+    isLoading: true,
     renderAddBooks: false
 }
 const bookReducer = (state = initState, action) => {
@@ -45,11 +46,17 @@ const bookReducer = (state = initState, action) => {
         case actionType.DELETE_BOOK :
         return{
             ...state,
+            allBooks: state.allBooks.filter( book => book._id !== action.bookId)
         }
         case actionType.TOGGLE_RENDER_ADD_BOOK :
         return{
             ...state,
             renderAddBooks: !state.renderAddBooks
+        }
+        case actionType.TOGGLE_SPINNER :
+        return{
+            ...state,
+            isLoading: !state.isLoading
         }
         default : return state
     }
