@@ -1,10 +1,10 @@
-const models = require('../model/models');
+const Notification = require('../model/notification');
 
 const createNotification = (userId, userName, bookTitle, type) =>{
-    models.Notifications({
+    Notification({
         userId,
         message: `${userName} ${type} book, "${bookTitle}".`,
-        time: new Date().toDateString()
+        time: Date.now()
     }).save();
 }
 const getNotifs = () => {

@@ -1,118 +1,140 @@
-const express = require('express'),
-    bodyParser = require('body-parser'),
-    models= require('../model/models'),
-    bookService = express.Router(),
-    verifyToken = require('./verifyToken'),
-    userPlan = require('../model/userPlan'),
-    notifications = require('./notifsController'),
-    moment = require('moment');
+    
+const models= require('../model/models');
+    const Book = require('../model/book');
+    const RentedBook = require('../model/rentedBook');
+    const userPlan = require('../model/userPlan');
+    const notifications = require('./notifsController');
+    const jwt = require('jsonwebtoken');
+    const moment = require('moment');
 
-    bookService.use(bodyParser.json());
+const bookController = {
+    async addBook(req, res){
+        const{title, author, about, category, quantity, language, publishedYear, pages, isbn} = req.body;
+        const cover = req.file.filename;
+        if(!cover)
+            return res.status(400).send({message: 'No book cover selected'});
 
-bookService.get('/availableBooks', (req, res)=> {
-     models.Books.find({quantity: {$gt:0}}, (err, books)=>{
-        if(err) return res.status(500).send('Internal server error');
-        if(!books) return res.status(401).send('No book is currently available');
+        try{
+            const newBook = await Book.create({
+                title,
+                author,
+                about,
+                category,
+                quantity,
+                isbn,
+                language,
+                publishedYear,
+                pages,
+                cover: `/uploads/${cover}`
+            })
+            return res.status(201).send({message: 'new book added', newBook})
 
-        res.status(200).send(books);
-    })
-})
-bookService.get('/rentedBooks/:userName', (req, res)=> {
-    models.BorrowedBooks.find({borrower: req.params.userName}, (err, record)=>{
-       if(err) return res.status(500).send('Internal server error');
-       if(!record) return res.status(401).send('You currently have no borrowed books');
+        }catch(err){
+            return res.status(400).send(err);
+        }
+    },
+    async getBooks(req, res){
+        const all = req.query.all || 'no';
+        let query = {quantity: {$gt:0}};
 
-       res.status(200).send(record);
-   })
-})
-bookService.get('/allBooks', (req, res)=> {
-    models.Books.find({}, (err, books)=>{
-        if(err) return res.status(500).send('Internal server error');
-        res.status(200).send(books);
-    })
-})
-bookService.post('/rentBook/:userId/:bookId', (req, res, next)=>{
-    let returnDate;
-    let data = {};
-    Promise.all([
-        models.Users.findById(req.params.userId),
-        models.Books.findById(req.params.bookId)
-    ])
-    .then(([user, book]) => {
-        data = {user, book};
-        return models.BorrowedBooks.countDocuments({borrower: user.name}).exec()
-    })
-    .then(count => {
-        const days = userPlan.validity(data.user.plan);
-        if(count === userPlan.maxBorrowing(data.user.plan)){
-            res.status(301).send({success: false, message: 'you have reached your maximum borrowing, consider'
-                +' returning some books or upgrade your plan!'}
-            )
-            throw new Error('you cant borrow new book');
+        if(all === 'yes')
+            query = {};
+        
+        try{
+            const books = await Book.find(query);
+            return res.status(200).send({books})
+        }catch(err){
+            res.status(400).send(err)
+        }
+    },
+    async updateBook(req, res){
+        const{bookId} = req.params;
+        try{
+            const updatedBook = await Book.findByIdAndUpdate(bookId, {$set: req.body}, {new: true});
+            return res.status(200).send({message: 'Book updated', updatedBook})
+        }catch(err){
+            res.status(400).send(err)
+        }
+    },
+    async deleteBook(req, res){
+        const{bookId} = req.params;
+
+        try{
+            const deleteBook = await Book.findByIdAndRemove(bookId)
+            return res.status(200).send({message:'Book successfully deleted'});
+        }catch(err){
+            res.status(500).send(err);
+        }
+    
+    },
+    async getBook(req, res){
+        const{bookId} = req.params;
+
+        try{
+            const book = await Book.findById(bookId)
+            return res.status(200).send({book});
+        }catch(err){
+            res.status(500).send(err);
+        }
+    
+    },
+    async rentBook(req, res){
+        const{userId} = req.params;
+        const{bookId} = req.body;
+
+        try{
+            const token =  req.headers['authorization'].substring(7).replace(/"/g, '');
+            const {currentUser} = jwt.decode(token);
+
+            const numBooksRented = await RentedBook.countDocuments({borrower: userId});
+            if(numBooksRented && numBooksRented >= userPlan.maxBorrowing(currentUser.plan))
+                return res.status(400).send({message: 'You have reached your renting limit, upgrade plan or return a book to rent more'})
             
-        }else
-            return models.BorrowedBooks({
-                book: data.book,
-                borrower: data.user.name,
-                dateBorrowed: new Date().toDateString(),
-                expectedReturnDate: moment().add(days, 'days').format('MMMM Do YYYY h:mm:ss a')
-            }).save()  
-    })
-    .then((borrowedBook)=> {
-        notifications.createNotifs(data.user._id, data.user.name, data.book.title, 'rented');
-        returnDate = borrowedBook.expectedReturnDate;
-        return models.RentHistory({
-            book:{
-                title: borrowedBook.book.title,
-                author: borrowedBook.book.author
-                },
-                borrower: borrowedBook.borrower,
-                dateBorrowed: borrowedBook.dateBorrowed
-        }).save()
-    })
-    .then(() =>{
-            return models.Books.findOneAndUpdate({ISBN: data.book.ISBN}, {$inc: {quantity: -1}}).exec()
-    })
-    .then(() => {
-        return res.status(200).send({
-                message: `Book successfully borrowed. you are expected to return this book on ${returnDate}`, 
-                success: true,
-            })       
-    }).catch(err => console.log('resolved') )    
-            
-})
+            const daysBeforeReturn = userPlan.validity(currentUser.plan);
 
-bookService.get('/borrowedLog/:userName', (req, res)=>{
-    models.RentHistory.find({borrower: req.params.userName}, (err, log)=>{
-        if(err) return res.status(500).send('error getting log');
-        res.status(200).send(log);
-    })
-})
-bookService.delete('/return/:userName/:bookISBN', (req, res)=>{
-    const{bookISBN, userName} = req.params;
-    models.BorrowedBooks.findOneAndRemove({$and:[{'book.ISBN': bookISBN},  {borrower: userName}]})
-    .then(() => {
-        return models.Books.findOneAndUpdate({ISBN: req.params.bookISBN}, {$inc: {quantity: 1}})
-    })
-    .then((book) => {
-        models.Users.findOne({name: userName}, (err, user)=>{
-            if(err) throw err;
+            const rented = await RentedBook.create({
+                book: bookId,
+                borrower: userId,
+                expectedReturn: moment().add(daysBeforeReturn, 'days').format('MMMM Do YYYY h:mm:ss a')
+            })
+            const book = await Book.findByIdAndUpdate(bookId, {$dec: {quantity: 1}})
+            await notifications.createNotifs(currentUser._id, currentUser.name, book.title, 'rented');
+            return res.status(200).send({message: 'Book borrowed', expectedReturn: rented.expectedReturn});
 
-            notifications.createNotifs(user._id, user.name, book.title, 'returned');
-            res.status(200).send({
-            message: 'book returned',
-            status: true
-            });
-        })
-    })
-    .catch(err => res.status(500).send(err) )
+        }catch(err){
+            res.status(500).send(err)
+        }
+    },
+    async getRentedBooks(req, res){
+        const{userId} = req.params;
+        const returned = req.query.returned || false;
 
-    })
-bookService.get('/notifications', (req, res)=>{
-    notifications.getNotifs().then(notifications => {
-        res.status(200).send({success: true, notifications})
-    })
-    .catch(err => res.status(500).send({success:false, message: 'failed to get notifications'}))
-})
+        try{
+            const rentedBooks = await RentedBook.find({borrower: userId, returned}).populate('book');
+            if(rentedBooks.length > 0)
+                return res.status(200).send({rentedBooks});
+            return res.status(404).send({message: 'You have no rented books'});
+        }catch(err){
+            res.status(500).send(err)
+        }
+    },
+    async returnBook(req, res){
+        const{userId} = req.params;
+        const {bookId} = req.body;
 
-module.exports = bookService;
+        try{
+            const token =  req.headers['authorization'].substring(7).replace(/"/g, '');
+            const {currentUser} = jwt.decode(token);
+
+            await RentedBook.findOneAndUpdate({book: bookId, borrower: userId}, {$set: {returned: true, ReturnDate: Date.now()}});
+            const book = await Book.findByIdAndUpdate(bookId, {$inc: {quantity: 1}});
+
+            await notifications.createNotifs(currentUser._id, currentUser.name, book.title, 'returned');
+            return res.status(200).send({message: 'Book successfully returned'});
+        }catch(err){
+            res.status(500).send(err);
+        }
+    }
+}
+
+module.exports = bookController;
