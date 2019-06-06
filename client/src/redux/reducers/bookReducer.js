@@ -48,10 +48,10 @@ const bookReducer = (state = initState, action) => {
             ...state,
             allBooks: state.allBooks.filter( book => book._id !== action.bookId)
         }
-        case actionType.TOGGLE_RENDER_ADD_BOOK :
+        case actionType.RETURN_BOOK : 
         return{
             ...state,
-            renderAddBooks: !state.renderAddBooks
+            rentedBooks: state.rentedBooks.filter(record => record.book._id !== action.bookId)
         }
         case actionType.TOGGLE_SPINNER :
         return{

@@ -6,6 +6,8 @@ import {
     NavbarToggler,
     NavbarBrand,
     Nav,
+    NavItem,
+    NavLink
      } from 'reactstrap';
     import {toggleSideBar} from "../../redux/actions/authActions";
   
@@ -29,9 +31,20 @@ class NavHeader extends Component{
               <NavbarBrand style = {{fontSize: '20px'}} href="/">HiBooks</NavbarBrand>
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
-                <Nav className="ml-auto" navbar>
-      
+                {
+                  this.props.isAuthenticated ? '' :
+                  <Nav className="ml-auto" navbar>
+                  <NavItem>
+                    <NavLink to='/login' name='Login' />
+                  </NavItem>
+                  <NavItem>
+                    <NavLink to='/signUp' name='Sign Up' />
+                  </NavItem>
+                  <NavItem>
+                    <NavLink to='/about' name='About' />
+                  </NavItem>
                 </Nav>
+                }
               </Collapse>
             </Navbar>
           </div>
@@ -42,7 +55,7 @@ class NavHeader extends Component{
 } 
 const mapStateToProps = (state)=> {
   return{
-    user: state.auth.currentUser,
+    isAuthenticated: state.auth.authenticated,
   }
 }
   const mapDispatchToProps = (dispatch)=> {

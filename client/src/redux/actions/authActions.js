@@ -45,8 +45,8 @@ export const login = userData => {
             body: JSON.stringify(userData)
         })
         .then(res=> {
-            if(res.status ===201 || res.status === 202)
-            return res.json()
+            if(res.status === 200)
+            return res.json();
         })
         .then((data)=> {
            if(data.authenticated){
@@ -80,20 +80,19 @@ export const logout = () => {
 export const authToken = token => {
     const userToken = `Bearer ${token}`
     return dispatch => {
-        fetch(`api/users/verifyUser`, {
+        fetch(`api/users/verifyToken`, {
             withCredentials: true,
             credentials: 'include',
             headers: {
                 'Content-Type': 'x-www-form-urlencoded',
-                'Authorization': `${userToken}`
+                'Authorization': `Bearer ${userToken}`
             }
         })
         .then(res => {
-            if(res.status === 200)
-                return res.json()
+            return res.json()
         })
         .then(data => {
-            if(data.authenticated){
+            if(data.status === 'success'){
                 const decoded = jwt.decode(data.token)
                 dispatch({
                     type: actionType.AUTH_TOKEN,
@@ -105,13 +104,7 @@ export const authToken = token => {
         .catch(err => console.log(err))
     }
 }
-/*export const toggleGroupButton= () => {
-    const action = {
-        type: actionType.TOGGLE_GROUP_BUTTON,
-        payLoad: true
-    }
-   
-}*/
+
 export const userNameExist = userName => {
        return fetch(`api/users/nameExist/${userName}`)
     
@@ -125,7 +118,8 @@ export const editProfile = (userId, newData) => {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.userToken}`
             },
             body: JSON.stringify({newData})
         })
@@ -156,7 +150,7 @@ export const changePassword = (userId, data) => {
         credentials: 'include',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json', /*x-www-form-urlencoded*/
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({

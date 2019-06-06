@@ -1,5 +1,6 @@
 import actionType from './actionType'; 
 import swal from 'sweetalert';
+import jwt from 'jsonwebtoken'
 
 /* @Description....adds a new book
 * @Param {obj}....book object
@@ -101,15 +102,15 @@ export const deleteBook = (_id) => {
 */
 export const getAllBooks = () => {
     return (dispatch) => {
-        fetch('api/books/allBooks/')
+        fetch('api/books')
         .then((res)=>{
             if(res.status === 200)
                 return res.json();
         })
-        .then((books)=>{
+        .then((data)=>{
             dispatch({
                 type: actionType.GET_ALL_BOOKS,
-                books
+                books: data.books
             })
         })
         .catch((err)=>{
@@ -126,18 +127,20 @@ export const getAllBooks = () => {
 */
 export const rentBook = (userId, bookId) => {
     return (dispatch) => {
-        fetch(`api/books/rentBook/${userId}/${bookId}`, {
+        fetch(`api/users/${userId}/books`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json', 
-            'Content-Type': 'application/json'
-        }
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.userToken}`
+        },
+        body: JSON.stringify({bookId})
         
     }).then(res => {
         return res.json()
     })
     .then((data)=>{
-        if(data.success){
+        if(data.status === 'success'){
             swal(data.message)
             dispatch({
             type: actionType.RENT_BOOK
@@ -154,41 +157,26 @@ export const rentBook = (userId, bookId) => {
 * @Description....get users rented books
 * @param {obj}....user id
 */
-export const rentedBooks = userName => {
+export const rentedBooks = userId => {
     return (dispatch) => {
-        fetch(`api/books/rentedBooks/${userName}`)
+        fetch(`api/users/${userId}/books`, {
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.userToken}`
+            },
+        })
         .then(res => {
             if(res.status === 200)
                 return res.json()
         })
-        .then(books => {
+        .then(data => {
             dispatch({
                 type: actionType.GET_RENTED_BOOKS,
-                books
+                books: data.rentedBooks
             })
         })
         .catch(err => console.log(err))
-    }
-}
-/* @Description....get all available books
-* @return{object}...... returns the available books object to the dispatch method
-*/
-export const getAvailableBooks = () => {
-    return dispatch => {
-        fetch('api/books/availableBooks')
-        .then((res)=>{
-            if(res.status === 200)
-            return res.json();
-        })
-        .then((books)=>{
-            dispatch({
-                type: actionType.GET_AVAILABLE_BOOKS,
-                books
-            })
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
     }
 }
 
@@ -217,14 +205,26 @@ export const rentHistory = userName => {
 * @Description....return borrowed books
 * @param {obj}....rented book
 */
-export const returnBook = (bookISBN, userId) => {
+export const returnBook = (bookId, userId) => {
     return (dispatch) => {
-            fetch(`api/books/return/${userId}/${bookISBN}`, {
-                method: 'DELETE',
+            fetch(`api/users/${userId}/books`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.userToken}`
+                },
+                body: JSON.stringify({bookId})
             })
             .then(res => {
                 if(res.status === 200)
-                    swal('book returned')
+                    return res.json();
+            })
+            .then(data => {
+                swal(data.message);
+                dispatch({
+                    type: actionType.RETURN_BOOK,
+                    bookId: data.bookId
+                })
             })
             .catch(err => console.log(err))
     }

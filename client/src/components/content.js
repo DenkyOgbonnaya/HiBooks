@@ -1,18 +1,21 @@
 import React,  {Component} from "react";
 import {Route, Switch, withRouter, Redirect } from "react-router-dom";   
-import BorrowBook from "./borrowbook";
 import BorrowedHistory from "./borrowedhistory";
-import UserProfile from "./userProfile";
-import AllBooks from "./allbooks";
+import ProfileDashboard from "./profile/dashboard";
 import ChangePassword from './authviews/changepassword'
 import {connect} from 'react-redux';
-import NewBOOK from "./adminViews/newbook";
 import Notifications from './notifications';
 import About from './about';
 import Contact from "./contact";
 import ManageUsers from "./adminViews/manageusers";
 import BooksDashboard from './adminViews/books/bookdashboard';
+import PrivateRoute from './authviews/privateRoute';
 import Footer from './footer'
+import Login from "./authviews/login";
+import SignUp from './authviews/signup';
+import ForgotPassword from "./authviews/forgotpassword";
+import Dashboard from "./books/Dashboard";
+
 class Content extends Component{
 
     render(){
@@ -20,17 +23,17 @@ class Content extends Component{
         return(
             <div className= 'content'> 
                 <Switch>
-                    <Route exact path= "/borrowBooks" component= {BorrowBook} />
                     <Route exact path= "/historyLog" component= {BorrowedHistory} /> 
-                    <Route exact path=  "/addBook" component = {NewBOOK} />
-                    <Route exact path= {`/${this.props.user.name}`}  component= {UserProfile}/>
+                    <Route exact path= {`/${this.props.user.name}`}  component= {ProfileDashboard}/>
                     <Route exact path= {`/${this.props.user.name}/changePassword`}  component= {ChangePassword}/>
                     <Route exact path= "/notifications" component={Notifications} />
                     <Route exact path= "/manageUsers" component= {BooksDashboard}/>
-                    <Route exact path= "/about" component={About} />
+                    <Route exact path= "/" component = {Dashboard} /> 
+                    <Route exact path= "/signUp" component= {SignUp}/>
+                    <Route exact path= "/login" component= {Login}/>
+                    <Route exact path= "/about" component= {About}/>
                     <Route exact path= "/contact" component= {Contact}/>
-                    <Route exact path= "/" component={AllBooks} /> 
-                    <Redirect from= '/login' to='/' exact /> 
+                    <Route exact path= "/forgotPassword" component= {ForgotPassword}/>
                 </Switch> 
                 <Footer />
             </div>  
