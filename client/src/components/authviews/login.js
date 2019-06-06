@@ -32,14 +32,14 @@ class Login extends Component{
                     <Form onSubmit = {this.loginUser} >
                         <FormGroup inline className="mb-2 mr-sm-2 mb-sm-0">
                             <Label for="name" className="mr-sm-2">Username</Label>
-                            <Input id="name" placeholder= "username" value= {this.name}  
+                            <Input id="name" placeholder= "username" value= {this.state.name}  
                             onChange= {this.onChange}
                             style={inputStyle} 
                         />
                         </FormGroup>
                         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                             <Label for="pword" className="mr-sm-2">Password</Label>
-                            <Input type="password" id="password" placeholder= "password" value= {this.pword}  
+                            <Input type="password" name= 'password' id="password" placeholder= "password" value= {this.state.name}  
                                 onChange= {this.onChange} 
                                 style={inputStyle} 
                             />

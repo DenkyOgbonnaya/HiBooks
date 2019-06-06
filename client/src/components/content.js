@@ -15,6 +15,7 @@ import Login from "./authviews/login";
 import SignUp from './authviews/signup';
 import ForgotPassword from "./authviews/forgotpassword";
 import Dashboard from "./books/Dashboard";
+import CategoryDashboard from './adminViews/categories/dashboard';
 
 class Content extends Component{
 
@@ -29,6 +30,7 @@ class Content extends Component{
                     <Route exact path= "/notifications" component={Notifications} />
                     <Route exact path= "/manageUsers" component= {BooksDashboard}/>
                     <Route exact path= "/" component = {Dashboard} /> 
+                    <Route exact path= "/categories" component = { CategoryDashboard} /> 
                     <Route exact path= "/signUp" component= {SignUp}/>
                     <Route exact path= "/login" component= {Login}/>
                     <Route exact path= "/about" component= {About}/>

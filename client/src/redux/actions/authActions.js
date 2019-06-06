@@ -78,7 +78,7 @@ export const logout = () => {
     }
 }
 export const authToken = token => {
-    const userToken = `Bearer ${token}`
+    const userToken = `${token}`
     return dispatch => {
         fetch(`api/users/verifyToken`, {
             withCredentials: true,

@@ -4,6 +4,7 @@ const initState = {
     allBooks: [],
     rentedBooks: [],
     rentedLogs: [],
+    categories: [],
     availableBooks: [],
     booksCounter: 0,
     isLoading: true,
@@ -58,6 +59,23 @@ const bookReducer = (state = initState, action) => {
             ...state,
             isLoading: !state.isLoading
         }
+        case actionType.GET_CATEGORIES :
+            return{
+                ...state,
+                categories: action.categories
+            }
+        case actionType.ADD_CATEGORY :
+            return{
+                ...state,
+                categories: state.categories.concat(action.category)
+            }
+            case actionType.EDIT_CATEGORY :
+            return{
+                ...state,
+                categories: state.categories.map(category => category._id === action.category._id ?  
+                    Object.assign({}, category, action.category ) : category
+                )
+            }
         default : return state
     }
 }

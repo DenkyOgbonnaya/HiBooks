@@ -229,3 +229,87 @@ export const returnBook = (bookId, userId) => {
             .catch(err => console.log(err))
     }
 }
+export const addCategory = category => {
+    return dispatch => {
+        fetch('api/categories', {
+              method: 'POST',
+              headers: {
+                'Accept': 'Application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.userToken}`
+              },
+              body: JSON.stringify({name: category})
+            })
+            .then(res => {
+                  return res.json()
+            })
+            .then(data => {
+                if(data.status === 'success'){
+                    swal({
+                        title:'Category',
+                        text: data.message,
+                        icon: 'success'
+                    })
+                 dispatch({
+                     type: actionType.ADD_CATEGORY,
+                     category: data.category
+                 });
+                }
+                swal(data.message)
+            })
+            .catch(err => console.log(err))
+        }
+    }
+    export const editCategory = (id, name) => {
+        return dispatch => {
+            fetch(`api/categories/${id}`, {
+                  method: 'PUT',
+                  headers: {
+                    'Accept': 'Application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.userToken}`
+                  },
+                  body: JSON.stringify({name})
+                })
+                .then(res => {
+                      return res.json()
+                })
+                .then(data => {
+                    if(data.status === 'success'){
+                        swal({
+                            title:'Category',
+                            text: data.message,
+                            icon: 'success'
+                        })
+                     dispatch({
+                         type: actionType.EDIT_CATEGORY,
+                         category: data.category
+                     });
+                    }
+                    swal(data.message)
+                })
+                .catch(err => console.log(err))
+            }
+        }
+    
+
+    export const getCategories = () => {
+        return (dispatch) => {
+            fetch('api/categories')
+            .then((res)=>{
+                if(res.status === 200)
+                    return res.json();
+            })
+            .then(data =>{
+                dispatch({
+                    type: actionType.GET_CATEGORIES,
+                    categories: data.categories
+                })
+            })
+            .catch((err)=>{
+                console.log(err)
+            })
+        }
+        
+    }
+    

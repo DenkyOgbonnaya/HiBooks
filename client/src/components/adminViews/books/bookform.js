@@ -101,6 +101,7 @@ class BookForm extends Component{
         </FormGroup>
         <Button>{this.props._id ? 'Save' : 'Add'}</Button>
       </Form>
+      <br />
       <Button color = 'warning' onClick ={() => this.props.closeBookForm()}>Cancel </Button>
     </div>
     );
