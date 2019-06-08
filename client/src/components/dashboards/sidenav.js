@@ -38,10 +38,6 @@ class SideNav extends React.Component {
             tag={RRNavLink} > <img src='/images/icons/profile.png' alt='' /> Profile</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to= '/borrowBooks' className='navLink'
-            tag={RRNavLink}> <img src='/images/icons/borrow.png' alt='' /> Borrow books</NavLink>
-          </NavItem>
-          <NavItem>
             <NavLink to= '/historyLog' className='navLink'
               tag={RRNavLink}> <img src='/images/icons/history.png' alt=''/> Borowed logs 
             </NavLink> 
@@ -57,19 +53,15 @@ class SideNav extends React.Component {
               <div>
                 <hr />
                 <NavItem>
-                  <NavLink to= '/addBook' className='navLink'
-                  tag={RRNavLink}> <img src='/images/icons/add.png' alt= ''/> Add book </NavLink>
+                  <NavLink to='/books'  className='navLink'
+                  tag={RRNavLink}> <img src='/images/icons/edit.png'alt=''/> Manage books</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink to='/' onClick = {this.showButtonGroup} className='navLink'
-                  tag={RRNavLink}> <img src='/images/icons/edit.png'alt=''/> Modify books</NavLink>
+                  <NavLink to='/categories'  className='navLink'
+                  tag={RRNavLink}> <img src='/images/icons/edit.png'alt=''/> Categories</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink to='/' onClick = {this.showButtonGroup}  className='navLink'
-                  tag={RRNavLink} > <img src='/images/icons/delete.png' alt=''/> Delete books</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink to='/manageUsers' className='navLink'
+                  <NavLink to='/users' className='navLink'
                   tag={RRNavLink}> <img src='/images/icons/users.png' alt=''/>  Manage users </NavLink>
                 </NavItem>
                 <NavItem>

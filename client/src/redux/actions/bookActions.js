@@ -7,30 +7,31 @@ import jwt from 'jsonwebtoken'
 */
 export const addBook = book => {
 return (dispatch, getState) => {
-    fetch('api/admin/addBook', {
-          method: 'POST',
-          headers: {
-            'Accept': 'Application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(book)
+    fetch('api/books', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.userToken}`
+        },
+          body: book
         })
         .then(res => {
-          if(res.status === 200){
-              return res.json()
-          }     
+              return res.json() 
         })
         .then(data => {
-            swal({
-                title:'Add Book',
-                text: data.message,
-                icon: 'success'
-            })
+            if(data.status === 'success'){
+                swal({
+                    title:'Add Book',
+                    text: data.message,
+                    icon: 'success'
+                })
             
-             dispatch({
-                 type: actionType.ADD_BOOK,
-                 book: data.book
-             });
+                dispatch({
+                    type: actionType.ADD_BOOK,
+                    book: data.book
+                });
+            }
+            swal(data.message)
         })
         .catch(err => console.log(err))
 }
@@ -40,27 +41,33 @@ return (dispatch, getState) => {
 * @Param {obj}....book id
 @Param {obj}.... modified book
 */
-export const modifyBook = (_id, newData ) => {
+export const editBook = (_id, newData ) => {
     return dispatch => {
-        fetch(`api/admin/modify/${_id}`,{
+        fetch(`api/books/${_id}`,{
           method: 'PUT',
           headers: {
             'Accept': 'Application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.userToken}`
           },
           body: JSON.stringify(newData)
         })
         .then(res => {
-          if(res.status === 200){
-            swal({
-                title:'Modify Book',
-                text: 'Book Modified',
-                icon: 'success'
-            } )
-            dispatch({
-                type:actionType.MODIFY_BOOK
-            })
-          }
+          return res.json()
+        })
+        .then(data => {
+            if(data.status === 'success'){
+                swal({
+                    title:'Modify Book',
+                    text: 'Book Modified',
+                    icon: 'success'
+                } )
+               dispatch({
+                   type: actionType.MODIFY_BOOK,
+                   book: data.book
+               })
+            }
+            swal(`error: ${data.message}`)
         })
         .catch(err =>{
         console.log(err);
@@ -78,15 +85,14 @@ export const deleteBook = (_id) => {
             type: actionType.DELETE_BOOK,
             bookId: _id
         })
-        fetch(`api/admin/delete/${_id}`,{
-        method: 'DELETE'
+        fetch(`api/books/${_id}`,{
+        method: 'DELETE',
+        headers: {
+            'Authorization': `${localStorage.userToken}`
+        }
         }).then(res => {
             if(res.status === 200){
                 swal('book deleted')
-                dispatch({
-                    type: actionType.DELETE_BOOK,
-                    bookId: _id
-                })
             }
                 
     }).catch(err =>{

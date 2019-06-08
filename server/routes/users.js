@@ -12,14 +12,16 @@ const{
     resetPassword,
     nameExist,
     emailExist,
-    contact
+    contact,
+    verifyToken
 
 } = userController;
 
-UserRouter.post('/signup', validateCreateUser, checkValidationResult, createUser)
-UserRouter.post('/login', validateLogin, checkValidationResult, loginUser)
-UserRouter.put('/:userId/profile', validateProfile, checkValidationResult, updateProfile)
-UserRouter.put('/:userId/password', changePassword)
+UserRouter.post('/signup', validateCreateUser, checkValidationResult, createUser);
+UserRouter.post('/login', validateLogin, checkValidationResult, loginUser);
+UserRouter.get('/verifyToken', verifyToken);
+UserRouter.put('/:userId/profile', validateProfile, checkValidationResult, updateProfile);
+UserRouter.put('/:userId/password', changePassword);
 //the commented end points need a fix
 /*UserRouter.get('/:email/reset', resetLink)
 UserRouter.get('/passwordReset/:userId/:token', passwordReset)

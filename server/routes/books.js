@@ -14,11 +14,11 @@ const{
     returnBook
     } = bookController;
 BookRouter.route('/books')
-.post(isLoggedIn, isAdmin, validateBookInputs, checkValidationResult, upload.single('image'), addBook)
+.post(isLoggedIn, isAdmin,  upload.single('image'), validateBookInputs, checkValidationResult, addBook)
 .get(getBooks)
 BookRouter.route('/books/:bookId')
 .get(isLoggedIn, getBook)
-.put(isLoggedIn, isAdmin, updateBook)
+.put(isLoggedIn, isAdmin,  validateBookInputs, checkValidationResult, updateBook)
 .delete(isLoggedIn, isAdmin, deleteBook)
 
 BookRouter.route('/users/:userId/books')

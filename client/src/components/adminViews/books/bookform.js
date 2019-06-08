@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import {connect} from 'react-redux';
+import {addBook, editBook, getCategories} from '../../../redux/actions/bookActions'
 
 class BookForm extends Component{
     state = {
@@ -9,17 +11,36 @@ class BookForm extends Component{
         pages: this.props.pages || '',
         quantity: this.props.quantity || '',
         language: this.props.language || '',
-        ISBN : this.props.ISBN || '',
+        isbn : this.props.isbn || '',
         category: this.props.category || '',
-        about: this.props.about || ''
+        about: this.props.about || '',
+        image: this.props.cover || null
+      }
+  
+      componentDidMount(){
+        this.bookData = new FormData();
+        this.props.getCategories();
       }
       
       handleInputChange = (e) => {
+        let name = e.target.name;
+        let value = name === 'image' ? e.target.files[0] : e.target.value
+
+        this.bookData.set(name, value)
         this.setState({
-          [e.target.name]:e.target.value
+          [name]: value
         })
       }
-                handleOnSubmit = (e) => {}
+      handleOnSubmit = (e) => {
+        e.preventDefault();
+
+        if(!this.props._id){
+          this.props.addBook(this.bookData);
+          this.props.closeBookForm();
+        }else
+        this.props.editBook(this.props._id, this.state);
+        this.props.closeBookForm()
+      }
 
     render(){
         const inputStyle = {backgroundColor: '#333', borderColor: '#333', color:'#ccc'}
@@ -27,7 +48,7 @@ class BookForm extends Component{
     <div>
         <hr />
         <h4> {this.props.action} </h4>
-      <Form onSubmit = {this.handleOnSubmit} >
+      <Form onSubmit = {this.handleOnSubmit}  encType = "multipart/form-data" >
         <Row form>
           <Col md={6}>
             <FormGroup>
@@ -78,15 +99,21 @@ class BookForm extends Component{
           <Col md={4}>
             <FormGroup>
               <Label for="ISBN">ISBN</Label>
-              <Input style={inputStyle} type="text" name="ISBN" id="ISBN" value= {this.state.ISBN} 
+              <Input style={inputStyle} type="text" name="isbn" id="isbn" value= {this.state.ISBN} 
               onChange= {this.handleInputChange} required />
             </FormGroup>
           </Col>
           <Col md={2}>
           <FormGroup>
           <Label for="category">Category</Label>
-          <Input style={inputStyle} type="text" name="category" id="category" value= {this.state.category} 
-          onChange= {this.handleInputChange} required />
+          <Input style={inputStyle} type="select" name="category" id="category" value= {this.state.category} 
+          onChange= {this.handleInputChange} required > 
+          {
+            this.props.categories.map(category => 
+              <option key = {category._id}>{category.name} </option>
+            )
+          }
+          </Input>
         </FormGroup>  
           </Col>
         </Row>
@@ -97,7 +124,7 @@ class BookForm extends Component{
         </FormGroup>
         <FormGroup> 
         <Label for="cover">select cover</Label>
-        <Input type='file' />
+        <Input type='file' name="image" accept='image/*' onChange ={ this.handleInputChange} disabled = {this.props._id ? true : false}  />
         </FormGroup>
         <Button>{this.props._id ? 'Save' : 'Add'}</Button>
       </Form>
@@ -107,5 +134,17 @@ class BookForm extends Component{
     );
     }
 }
+const mapStateToProps = state => {
+  return{
+      categories: state.books.categories,
+  }
+}
+const mapDispatchToProps = dispatch => {
+  return {
+      addBook: book => dispatch(addBook(book)),
+      editBook: (id, credentials) => dispatch(editBook(id, credentials)),
+      getCategories: () => dispatch(getCategories())
+  }
+}
 
-export default BookForm;
+export default connect(mapStateToProps, mapDispatchToProps)(BookForm);

@@ -1,11 +1,11 @@
-    
-const models= require('../model/models');
-    const Book = require('../model/book');
-    const RentedBook = require('../model/rentedBook');
-    const userPlan = require('../model/userPlan');
-    const notifications = require('./notifsController');
-    const jwt = require('jsonwebtoken');
-    const moment = require('moment');
+
+const User= require('../model/user');
+const Book = require('../model/book');
+const RentedBook = require('../model/rentedBook');
+const userPlan = require('../model/userPlan');
+const notifications = require('./notifsController');
+const jwt = require('jsonwebtoken');
+const moment = require('moment');
 
 const bookController = {
     async addBook(req, res){
@@ -15,7 +15,7 @@ const bookController = {
             return res.status(400).send({message: 'No book cover selected'});
 
         try{
-            const newBook = await Book.create({
+            const book = await Book.create({
                 title,
                 author,
                 about,
@@ -27,7 +27,7 @@ const bookController = {
                 pages,
                 cover: `/uploads/${cover}`
             })
-            return res.status(201).send({message: 'new book added', newBook})
+            return res.status(201).send({status: 'success', message: 'new book added', book})
 
         }catch(err){
             return res.status(400).send(err);
@@ -50,8 +50,8 @@ const bookController = {
     async updateBook(req, res){
         const{bookId} = req.params;
         try{
-            const updatedBook = await Book.findByIdAndUpdate(bookId, {$set: req.body}, {new: true});
-            return res.status(200).send({message: 'Book updated', updatedBook})
+            const book = await Book.findByIdAndUpdate(bookId, {$set: req.body}, {new: true});
+            return res.status(200).send({status: 'success', message: 'Book updated', book})
         }catch(err){
             res.status(400).send(err)
         }
@@ -83,12 +83,10 @@ const bookController = {
         const{bookId} = req.body;
 
         try{
-            const token =  req.headers['authorization'].substring(7).replace(/"/g, '');
-            const {currentUser} = jwt.decode(token);
-
+            const currentUser = await User.findById(userId);
             const numBooksRented = await RentedBook.countDocuments({borrower: userId});
-            if(numBooksRented && numBooksRented >= userPlan.maxBorrowing(currentUser.plan))
-                return res.status(400).send({message: 'You have reached your renting limit, upgrade plan or return a book to rent more'})
+            if(numBooksRented >= userPlan.maxBorrowing(currentUser.plan))
+                return res.status(400).send({status: 'failed', message: 'You have reached your renting limit, upgrade plan or return a book to rent more'})
             
             const daysBeforeReturn = userPlan.validity(currentUser.plan);
 
@@ -97,9 +95,9 @@ const bookController = {
                 borrower: userId,
                 expectedReturn: moment().add(daysBeforeReturn, 'days').format('MMMM Do YYYY h:mm:ss a')
             })
-            const book = await Book.findByIdAndUpdate(bookId, {$dec: {quantity: 1}})
+            const book = await Book.findByIdAndUpdate(bookId, {$inc: {quantity: -1}})
             await notifications.createNotifs(currentUser._id, currentUser.name, book.title, 'rented');
-            return res.status(200).send({message: 'Book borrowed', expectedReturn: rented.expectedReturn});
+            return res.status(200).send({status: 'success', message: `Book rented /n expectedReturn: ${rented.expectedReturn}`, });
 
         }catch(err){
             res.status(500).send(err)
@@ -130,8 +128,9 @@ const bookController = {
             const book = await Book.findByIdAndUpdate(bookId, {$inc: {quantity: 1}});
 
             await notifications.createNotifs(currentUser._id, currentUser.name, book.title, 'returned');
-            return res.status(200).send({message: 'Book successfully returned'});
+            return res.status(200).send({message: 'Book successfully returned', bookId: book._id});
         }catch(err){
+            console.log(err)
             res.status(500).send(err);
         }
     }

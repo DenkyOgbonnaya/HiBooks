@@ -14,7 +14,7 @@ class EditableBook extends Component{
     }
     
     render(){ 
-        const{_id, title, author, ISBN, publishedYear, language, pages, about, category } = this.props.book;
+        const{_id, title, author, isbn, publishedYear, language, pages, about, category, cover} = this.props.book;
         if(this.state.showBookForm){
             return(
                 <tr key = {_id}>
@@ -23,10 +23,11 @@ class EditableBook extends Component{
                      title = {title}
                      author = {author}
                      publishedYear = {publishedYear}
-                     ISBN = {ISBN}
+                     isbn = {isbn}
                      language= {language}
                      pages = {pages}
                      category= {category}
+                     cover = {cover}
                      about= {about}
                      closeBookForm = {this.closeBookForm} /> </td>
                 </tr>
@@ -36,9 +37,9 @@ class EditableBook extends Component{
             <tr key = {_id}> 
                 <td> {title} </td>
                 <td> {author} </td>
-                <td> <Button color='success'>View </Button> </td>
-                <td> <Button color='warning' onClick = {() => this.setState({showBookForm: true})}>Edit </Button> </td>
-                <td> <Button color='danger' onClick = {() => this.props.deleteBook(_id)}>Delete </Button> </td>
+                <td> <Button size='sm' color='success'>View </Button> </td>
+                <td> <Button size='sm' color='warning' onClick = {() => this.setState({showBookForm: true})}>Edit </Button> </td>
+                <td> <Button size='sm' color='danger' onClick = {() => this.props.deleteBook(_id)}>Delete </Button> </td>
             </tr>
                 
         )

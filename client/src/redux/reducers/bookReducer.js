@@ -21,18 +21,13 @@ const bookReducer = (state = initState, action) => {
         case actionType.ADD_BOOK :
             return{
                 ...state,
-                allBooks: [...state.allBooks, action.book]
+                allBooks: state.allBooks.concat(action.book)
             }
         case actionType.GET_RENTED_BOOKS :
             return {
                 ...state,
                 rentedBooks:  action.books,
                 booksCounter: action.books.length
-            }
-        case actionType.GET_AVAILABLE_BOOKS :
-            return {
-                ...state,
-                availableBooks: action.books
             }
         case actionType.GET_BORROWED_HISTORY :
             return {
@@ -43,6 +38,9 @@ const bookReducer = (state = initState, action) => {
         case actionType.MODIFY_BOOK :
         return{
             ...state,
+            allBooks: state.allBooks.map(book => book._id === action.book._id ?  
+                Object.assign({}, book, action.book ) : book
+            )
         }
         case actionType.DELETE_BOOK :
         return{

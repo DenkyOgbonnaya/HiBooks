@@ -8,7 +8,7 @@ class EditableBookList extends Component {
         const{books, deletBook} = this.props;
         return(
             <div> 
-                <Table responsive > 
+                <Table size='sm' hover responsive > 
                     <thead> 
                         <tr> 
                             <th>Title </th>
@@ -19,7 +19,7 @@ class EditableBookList extends Component {
                     <tbody> 
                         {
                             books.map(book => 
-                                <EditableBook  book = {book} deleteBook = {deletBook}/>
+                                <EditableBook key= {book._id}  book = {book} deleteBook = {deletBook}/>
                             )
                         }
                     </tbody>

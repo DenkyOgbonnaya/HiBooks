@@ -57,6 +57,18 @@ const userController = {
             res.status(400).send(err);
         }
     },
+    async verifyToken(req, res){
+        const token = req.headers['authorization'] ? req.headers['authorization'].substring(7).replace(/"/g, '') : '';
+
+        if(!token) return res.status(401 ).send({message: 'unauthorized user'})
+
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded)=>{
+        if(err) 
+            return res.status(401).send({status: 'failed', message: 'unauthorized user.'})
+    
+        res.status(200).send({status: 'success', token});
+    });
+    },
     async updateProfile(req, res){
         const{userId} = req.params;
         try{

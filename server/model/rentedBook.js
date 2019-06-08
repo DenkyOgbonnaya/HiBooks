@@ -7,7 +7,7 @@ const rentedBookSchema = new Schema({
         type: Date,
         default: Date.now()
     },
-    expectedReturn: Date,
+    expectedReturn: String,
     returned: {
         type: Boolean,
         default: false

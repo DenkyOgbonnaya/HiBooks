@@ -28,7 +28,8 @@ class Content extends Component{
                     <Route exact path= {`/${this.props.user.name}`}  component= {ProfileDashboard}/>
                     <Route exact path= {`/${this.props.user.name}/changePassword`}  component= {ChangePassword}/>
                     <Route exact path= "/notifications" component={Notifications} />
-                    <Route exact path= "/manageUsers" component= {BooksDashboard}/>
+                    <Route exact path= "/books" component= {BooksDashboard}/>
+                    <Route exact path= "/users" component= {ManageUsers}/>
                     <Route exact path= "/" component = {Dashboard} /> 
                     <Route exact path= "/categories" component = { CategoryDashboard} /> 
                     <Route exact path= "/signUp" component= {SignUp}/>

@@ -19,7 +19,9 @@ class BookDashboard extends Component{
             <div> 
                 <h3>Manage Books </h3>
                 <ToggleableBookForm />
-                <br />{
+                <hr />
+                <h5> Existing </h5>
+                {
                     this.props.isLoading ? <Spinnar /> :
                 <EditableBookList books = {books}  />
                 }

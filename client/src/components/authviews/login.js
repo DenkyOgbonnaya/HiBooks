@@ -39,7 +39,7 @@ class Login extends Component{
                         </FormGroup>
                         <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                             <Label for="pword" className="mr-sm-2">Password</Label>
-                            <Input type="password" name= 'password' id="password" placeholder= "password" value= {this.state.name}  
+                            <Input type="password" name= 'password' id="password" placeholder= "password" value= {this.state.password}  
                                 onChange= {this.onChange} 
                                 style={inputStyle} 
                             />
