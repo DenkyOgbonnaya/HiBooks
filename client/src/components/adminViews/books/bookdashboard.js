@@ -2,17 +2,36 @@ import React, {Component} from 'react';
 import ToggleableBookForm from './toggleableform';
 import EditableBookList from './editableBookList';
 import {connect} from 'react-redux';
-import {getAllBooks} from '../../../redux/actions/bookActions';
+import {getAllBooks, searchBook, getCategories} from '../../../redux/actions/bookActions';
 import actionType from '../../../redux/actions/actionType';
 import Spinnar from '../../utils/spinner';
+import SearchField from '../../searchfield';
 import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 
 class BookDashboard extends Component{
-
+    state = {
+        search: '',
+        category: 'All',
+        isLoading: true
+    }
     componentDidMount(){
         this.props.getAllBooks(1, 20);
+        this.props.getCategories();
         if(this.props.allBooks.length > 0)
-            this.props.toggleSpinner();
+            this.setState({isLoading: false});
+    }
+    setSearch = search => {
+        this.setState({
+            search
+        })
+    }
+    setCategory = category => {
+        this.setState({
+            category
+        })
+    }
+    handleSearch = (search= this.state.search, category= this.state.category) => {
+        this.props.searchBook(search, category)
     }
     handlePageChange = (pageNum) => {
         this.props.getAllBooks(pageNum, 20)
@@ -47,12 +66,18 @@ class BookDashboard extends Component{
         const books = this.props.allBooks;
         return(
             <div> 
+                <SearchField 
+                    categories = {this.props.categories}
+                    setSearch = {this.setSearch}
+                    setCategory = {this.setCategory}
+                    handleSearch = {this.handleSearch}
+                />
                 <h3>Manage Books </h3>
                 <ToggleableBookForm />
                 <hr />
                 <h5> Existing </h5>
                 {
-                    this.props.isLoading ? <Spinnar /> :
+                    this.state.isLoading ? <Spinnar /> :
                 <EditableBookList books = {books}  />
                 }
                 {this.displayPageNums()}
@@ -64,7 +89,7 @@ class BookDashboard extends Component{
 const mapStateToProps = state => {
     return{
         allBooks: state.books.allBooks,
-        isLoading: state.books.isLoading,
+        categories: state.books.categories,
         currentPage: state.books.currentPage,
         pages: state.books.pages
     }
@@ -72,7 +97,8 @@ const mapStateToProps = state => {
 const mapDispatchToprops = dispatch => {
     return{
         getAllBooks: (pageNum, limit) => dispatch(getAllBooks(pageNum, limit)),
-        toggleSpinner: () => dispatch({type: actionType.TOGGLE_SPINNER})
+        searchBook: (search, category) => dispatch(searchBook(search, category)),
+        getCategories: () => dispatch(getCategories())
     }
 }   
 

@@ -6,8 +6,7 @@ const initState = {
     rentedLogs: [],
     categories: [],
     currentPage: 1,
-    pages:1,
-    isLoading: true,
+    pages:1
 }
 const bookReducer = (state = initState, action) => {
     switch(action.type){
@@ -22,6 +21,13 @@ const bookReducer = (state = initState, action) => {
             return{
                 ...state,
                 allBooks: state.allBooks.concat(action.book)
+            }
+        case actionType.SEARCH_BOOK :
+            return{
+                ...state,
+                allBooks: action.books.data,
+                currentPage: action.books.page,
+                pages: action.books.pages
             }
         case actionType.GET_RENTED_BOOKS :
             return {
@@ -51,11 +57,6 @@ const bookReducer = (state = initState, action) => {
         return{
             ...state,
             rentedBooks: state.rentedBooks.filter(record => record.book._id !== action.bookId)
-        }
-        case actionType.TOGGLE_SPINNER :
-        return{
-            ...state,
-            isLoading: !state.isLoading
         }
         case actionType.GET_CATEGORIES :
             return{

@@ -35,16 +35,10 @@ const bookController = {
     },
     async getBooks(req, res){
         const page = Number(req.query.page) || 1;
-        const limit = Number(req.query.limit) || 2;
-
-        const all = req.query.all || 'no';
-        let query = {quantity: {$gt:0}};
-
-        if(all === 'yes')
-            query = {};
+        const limit = Number(req.query.limit) || 20;
         
         try{
-            const result = await Book.paginate(query, {page, limit});
+            const result = await Book.paginate({}, {page, limit});
             return res.status(200).send({
                 books: {
                     data:result.docs,
@@ -143,7 +137,35 @@ const bookController = {
             console.log(err)
             res.status(500).send(err);
         }
-    }
+    },
+    async searchBook(req, res){
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 2;
+        const{search, category} = req.query;
+
+        const query = {};
+        if(search)
+            query.title = {$regex: search, $options: 'i'};
+        if(category && category !== 'All')
+            query.category = category
+        try{
+            const result = await Book.paginate(query, {page, limit});
+            
+            if(result)
+            return res.status(200).send({
+                books: {
+                    data:result.docs,
+                    page: result.page,
+                    pages: result.pages,
+                    total: result.total
+                }
+            })
+            return res.status(401).send({message: 'meal not found'})
+        }catch(err){
+            console.log(err)
+            res.status(500).send(err);
+        }
+    },
 }
 
 module.exports = bookController;

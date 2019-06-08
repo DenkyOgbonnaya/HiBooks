@@ -1,14 +1,35 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import SearchField from '../searchfield';
-import {getAllBooks} from '../../redux/actions/bookActions';
+import {getAllBooks, getCategories, searchBook} from '../../redux/actions/bookActions';
 import BookList from './bookList';
+import Spinnar from '../utils/spinner';
 import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 
 class DashBoard extends Component {
-    
+    state = {
+        search: '',
+        category: 'All',
+        isLoading: true
+    }
     componentDidMount(){
         this.props.getAllBooks(1, 20);
+        this.props.getCategories();
+        if(this.props.allBooks.length > 0)
+            this.setState({isLoading: false});
+    }
+    setSearch = search => {
+        this.setState({
+            search
+        })
+    }
+    setCategory = category => {
+        this.setState({
+            category
+        })
+    }
+    handleSearch = (search= this.state.search, category= this.state.category) => {
+        this.props.searchBook(search, category)
     }
     handlePageChange = (pageNum) => {
         this.props.getAllBooks(pageNum, 20)
@@ -43,9 +64,17 @@ class DashBoard extends Component {
         const{allBooks} = this.props;
         return(
             <div> 
-                <SearchField />
+                <SearchField
+                    categories = {this.props.categories}
+                    setSearch = {this.setSearch}
+                    setCategory = {this.setCategory}
+                    handleSearch = {this.handleSearch}
+                 />
                 <br />
-                <BookList books = {allBooks} />
+                {
+                    this.state.isLoading ? <Spinnar /> :
+                    <BookList books = {allBooks} />
+                }
                 {this.displayPageNums()}
             </div>
         )
@@ -54,13 +83,16 @@ class DashBoard extends Component {
 const mapStateToProps = state => {
     return{
         allBooks: state.books.allBooks,
+        categories: state.books.categories,
         currentPage: state.books.currentPage,
         pages: state.books.pages
     }
 }
 const mapDispatchToprops = dispatch => {
     return{
-        getAllBooks: (pageNum, limit) => dispatch(getAllBooks(pageNum, limit))
+        getAllBooks: (pageNum, limit) => dispatch(getAllBooks(pageNum, limit)),
+        searchBook: (search, category) => dispatch(searchBook(search, category)),
+        getCategories: () => dispatch(getCategories())
     }
 }   
 

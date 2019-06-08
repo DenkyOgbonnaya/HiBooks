@@ -125,6 +125,29 @@ export const getAllBooks = (pageNum, limit) => {
     }
     
 }
+/* 
+* @Description....seach for book in the liberary
+* @Return {obj}....array of books
+*/
+export const searchBook = (search, category) => {
+    return (dispatch) => {
+        fetch(`api/book/search?search=${search}&category=${category}`)
+        .then((res)=>{
+            if(res.status === 200)
+                return res.json();
+        })
+        .then((data)=>{
+            dispatch({
+                type: actionType.SEARCH_BOOK,
+                books: data.books
+            })
+        })
+        .catch((err)=>{
+            console.log(err)
+        })
+    }
+    
+}
 
 /* 
 * @Description....rent a book

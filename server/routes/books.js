@@ -11,7 +11,8 @@ const{
     deleteBook,
     rentBook,
     getRentedBooks,
-    returnBook
+    returnBook,
+    searchBook
     } = bookController;
 BookRouter.route('/books')
 .post(isLoggedIn, isAdmin,  upload.single('image'), validateBookInputs, checkValidationResult, addBook)
@@ -25,5 +26,7 @@ BookRouter.route('/users/:userId/books')
 .post(isLoggedIn, rentBook)
 .get(isLoggedIn, getRentedBooks)
 .put(isLoggedIn, returnBook)
+
+BookRouter.get('/book/search', searchBook);
 
 module.exports = BookRouter;
