@@ -34,6 +34,9 @@ const bookController = {
         }
     },
     async getBooks(req, res){
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.limit) || 2;
+
         const all = req.query.all || 'no';
         let query = {quantity: {$gt:0}};
 
@@ -41,8 +44,15 @@ const bookController = {
             query = {};
         
         try{
-            const books = await Book.find(query);
-            return res.status(200).send({books})
+            const result = await Book.paginate(query, {page, limit});
+            return res.status(200).send({
+                books: {
+                    data:result.docs,
+                    page: result.page,
+                    pages: result.pages,
+                    total: result.total
+                }
+            })
         }catch(err){
             res.status(400).send(err)
         }

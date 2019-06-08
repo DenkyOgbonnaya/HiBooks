@@ -106,9 +106,9 @@ export const deleteBook = (_id) => {
 * @Description....gets all book in the liberary
 * @Return {obj}....array of books
 */
-export const getAllBooks = () => {
+export const getAllBooks = (pageNum, limit) => {
     return (dispatch) => {
-        fetch('api/books')
+        fetch(`api/books?page=${pageNum}&limit=${limit}`)
         .then((res)=>{
             if(res.status === 200)
                 return res.json();

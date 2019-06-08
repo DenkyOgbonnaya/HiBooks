@@ -5,18 +5,18 @@ const initState = {
     rentedBooks: [],
     rentedLogs: [],
     categories: [],
-    availableBooks: [],
-    booksCounter: 0,
+    currentPage: 1,
+    pages:1,
     isLoading: true,
-    renderAddBooks: false
 }
 const bookReducer = (state = initState, action) => {
     switch(action.type){
         case actionType.GET_ALL_BOOKS :
             return{
                 ...state,
-                allBooks: action.books,
-                booksCounter: action.books.length
+                allBooks: action.books.data,
+                currentPage: action.books.page,
+                pages: action.books.pages
             }
         case actionType.ADD_BOOK :
             return{
