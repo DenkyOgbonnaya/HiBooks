@@ -87,8 +87,14 @@ const bookController = {
         const{bookId} = req.body;
 
         try{
-            const currentUser = await User.findById(userId);
-            const numBooksRented = await RentedBook.countDocuments({borrower: userId});
+            const token =  req.headers['authorization'].replace(/"/g, '');
+            const {currentUser} = jwt.decode(token);
+
+            const isRented = await RentedBook.findOne({borrower: userId, book: bookId, returned: false});
+            if(isRented)
+                return res.status(400).send({status: 'failed', message: 'You have already rented this book!'})
+
+            const numBooksRented = await RentedBook.countDocuments({borrower: userId, returned: false});
             if(numBooksRented >= userPlan.maxBorrowing(currentUser.plan))
                 return res.status(400).send({status: 'failed', message: 'You have reached your renting limit, upgrade plan or return a book to rent more'})
             
@@ -125,7 +131,7 @@ const bookController = {
         const {bookId} = req.body;
 
         try{
-            const token =  req.headers['authorization'].substring(7).replace(/"/g, '');
+            const token =  req.headers['authorization'].replace(/"/g, '');
             const {currentUser} = jwt.decode(token);
 
             await RentedBook.findOneAndUpdate({book: bookId, borrower: userId}, {$set: {returned: true, ReturnDate: Date.now()}});

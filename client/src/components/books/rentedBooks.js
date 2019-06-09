@@ -34,7 +34,7 @@ class RentedBooks extends Component {
                                             <CardText> 
                                                 <small className='text-muted'> Expexted Return: {record.expectedReturn} </small>
                                             </CardText>
-                                            <Button style= {{float:"right", marginBottom:"1px"}} onClick= {(e)=> {returnBook(record.book._id)} }> Return </Button>
+                                            <Button style= {{float:"right", marginBottom:"1px"}} onClick= {(e)=> this.returnBook(record.book._id) }> Return </Button>
                                         </CardBody>
                                     </Card>
                                     <br />
