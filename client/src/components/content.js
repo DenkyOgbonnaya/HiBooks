@@ -1,6 +1,6 @@
 import React,  {Component} from "react";
 import {Route, Switch, withRouter, Redirect } from "react-router-dom";   
-import BorrowedHistory from "./borrowedhistory";
+import RentLogs from "./rentLogs";
 import ProfileDashboard from "./profile/dashboard";
 import ChangePassword from './authviews/changepassword'
 import {connect} from 'react-redux';
@@ -24,7 +24,7 @@ class Content extends Component{
         return(
             <div className= 'content'> 
                 <Switch>
-                    <Route exact path= "/historyLog" component= {BorrowedHistory} /> 
+                    <Route exact path= "/rentlogs" component= {RentLogs} /> 
                     <Route exact path= {`/${this.props.user.name}`}  component= {ProfileDashboard}/>
                     <Route exact path= {`/${this.props.user.name}/changePassword`}  component= {ChangePassword}/>
                     <Route exact path= "/notifications" component={Notifications} />

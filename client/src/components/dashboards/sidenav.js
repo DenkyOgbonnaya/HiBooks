@@ -38,8 +38,8 @@ class SideNav extends React.Component {
             tag={RRNavLink} > <img src='/images/icons/profile.png' alt='' /> Profile</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to= '/historyLog' className='navLink'
-              tag={RRNavLink}> <img src='/images/icons/history.png' alt=''/> Borowed logs 
+            <NavLink to= '/rentlogs' className='navLink'
+              tag={RRNavLink}> <img src='/images/icons/history.png' alt=''/> Rent logs 
             </NavLink> 
           </NavItem>
           <NavItem>
