@@ -6,7 +6,8 @@ const initState = {
     rentedLogs: [],
     categories: [],
     currentPage: 1,
-    pages:1
+    pages:1,
+    isLoading: true
 }
 const bookReducer = (state = initState, action) => {
     switch(action.type){
@@ -15,7 +16,8 @@ const bookReducer = (state = initState, action) => {
                 ...state,
                 allBooks: action.books.data,
                 currentPage: action.books.page,
-                pages: action.books.pages
+                pages: action.books.pages,
+                isLoading: false
             }
         case actionType.ADD_BOOK :
             return{
@@ -33,13 +35,7 @@ const bookReducer = (state = initState, action) => {
             return {
                 ...state,
                 rentedBooks:  action.books,
-                booksCounter: action.books.length
-            }
-        case actionType.GET_BORROWED_HISTORY :
-            return {
-                ...state,
-                rentedLogs: action.logs,
-                booksCounter: action.logs.length
+                isLoading: false
             }
         case actionType.MODIFY_BOOK :
         return{
@@ -56,7 +52,8 @@ const bookReducer = (state = initState, action) => {
         case actionType.RETURN_BOOK : 
         return{
             ...state,
-            rentedBooks: state.rentedBooks.filter(record => record.book._id !== action.bookId)
+            rentedBooks: state.rentedBooks.filter(record => record.book._id !== action.bookId),
+            isLoading:false
         }
         case actionType.GET_CATEGORIES :
             return{

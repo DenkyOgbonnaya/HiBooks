@@ -9,14 +9,11 @@ import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 class DashBoard extends Component {
     state = {
         search: '',
-        category: 'All',
-        isLoading: true
+        category: 'All'
     }
     componentDidMount(){
         this.props.getAllBooks(1, 20);
         this.props.getCategories();
-        //if(this.props.allBooks.length > 0)
-            this.setState({isLoading: false});
     }
     setSearch = search => {
         this.setState({
@@ -72,7 +69,7 @@ class DashBoard extends Component {
                  />
                 <br />
                 {
-                    this.state.isLoading ? <Spinnar /> :
+                    this.props.isLoading ? <Spinnar /> :
                     <BookList books = {allBooks} />
                 }
                 {this.displayPageNums()}
@@ -85,7 +82,8 @@ const mapStateToProps = state => {
         allBooks: state.books.allBooks,
         categories: state.books.categories,
         currentPage: state.books.currentPage,
-        pages: state.books.pages
+        pages: state.books.pages,
+        isLoading: state.books.isLoading
     }
 }
 const mapDispatchToprops = dispatch => {
