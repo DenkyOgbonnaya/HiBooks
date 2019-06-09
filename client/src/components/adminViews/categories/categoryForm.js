@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Form, Button, Input} from 'reactstrap';
 import {connect} from 'react-redux';
 import {addCategory, editCategory} from '../../../redux/actions/bookActions';
-import Swal from 'sweetalert';
 
 class CategoryForm extends Component { 
     state = {
@@ -18,10 +17,10 @@ class CategoryForm extends Component {
 
         if(!this.props._id){
             this.props.addCategory(this.state.name)
-            Swal('new category added');
+            this.props.closeForm();
         }
-        this.props.addCategory(this.props._id,  this.state.name)
-        Swal('new category added');
+        this.props.editCategory(this.props._id,  this.state.name)
+        this.props.closeForm();
 
     }
     render(){

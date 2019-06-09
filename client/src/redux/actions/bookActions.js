@@ -161,7 +161,7 @@ export const rentBook = (userId, bookId) => {
         headers: {
             'Accept': 'application/json', 
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.userToken}`
+            'Authorization': `${localStorage.userToken}`
         },
         body: JSON.stringify({bookId})
         
@@ -192,7 +192,7 @@ export const rentedBooks = userId => {
             headers: {
                 'Accept': 'application/json', 
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.userToken}`
+                'Authorization': `${localStorage.userToken}`
             },
         })
         .then(res => {
@@ -240,7 +240,7 @@ export const returnBook = (bookId, userId) => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.userToken}`
+                    'Authorization': `${localStorage.userToken}`
                 },
                 body: JSON.stringify({bookId})
             })
@@ -265,7 +265,7 @@ export const addCategory = category => {
               headers: {
                 'Accept': 'Application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.userToken}`
+                'Authorization': `${localStorage.userToken}`
               },
               body: JSON.stringify({name: category})
             })
@@ -291,12 +291,16 @@ export const addCategory = category => {
     }
     export const editCategory = (id, name) => {
         return dispatch => {
+            dispatch({
+                type: actionType.EDIT_CATEGORY,
+                category: {_id: id, name}
+            });
             fetch(`api/categories/${id}`, {
                   method: 'PUT',
                   headers: {
                     'Accept': 'Application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.userToken}`
+                    'Authorization': `${localStorage.userToken}`
                   },
                   body: JSON.stringify({name})
                 })
