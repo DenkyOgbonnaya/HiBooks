@@ -34,11 +34,7 @@ const authReducer = (state = initState, action) => {
                 currentUser : {},
                 authenticated : false
             }
-        case actionType.TOGGLE_GROUP_BUTTON : 
-            return{
-                ...state,
-                showButtonGroup: action.payload
-            }
+        
         case actionType.LOGIN_ERROR :
             return{
                 ...state,

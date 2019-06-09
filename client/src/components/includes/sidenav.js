@@ -34,7 +34,7 @@ class SideNav extends React.Component {
         <div className='dashboard' > <img src='/images/icons/dashboard.png' alt='' /> Dashboard </div>
         <Nav vertical>
           <NavItem>
-            <NavLink to= {`/${this.props.user.name}`} className='navLink'
+            <NavLink to= '/profile' className='navLink'
             tag={RRNavLink} > <img src='/images/icons/profile.png' alt='' /> Profile</NavLink>
           </NavItem>
           <NavItem>

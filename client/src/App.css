@@ -8,7 +8,7 @@
   background-color: #15191b;
   color: #ccc;
   width: 300px;
-  height:100vh;
+  height:inherit;
   position: sticky;
   z-index: 1;
   overflow-y: hidden;
@@ -23,7 +23,7 @@
   width: 100%;
   background: #212121;
   border: 1px solid black;
-  padding: 10px;
+  padding: inherit;
   color: #ccc;
 margin-bottom: 85px;
 align-items: stretch

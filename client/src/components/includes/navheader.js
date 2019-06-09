@@ -24,6 +24,7 @@ class NavHeader extends Component{
       }
       
     render(){
+      const{isAuthenticated} = this.props;
         return(
             <div>
               <hr />
@@ -31,8 +32,6 @@ class NavHeader extends Component{
               <NavbarBrand style = {{fontSize: '20px'}} href="/">HiBooks</NavbarBrand>
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
-                {
-                  this.props.isAuthenticated ? '' :
                   <Nav className="ml-auto" navbar>
                   <NavItem>
                     <NavLink to='/login' name='Login' />
@@ -43,8 +42,7 @@ class NavHeader extends Component{
                   <NavItem>
                     <NavLink to='/about' name='About' />
                   </NavItem>
-                </Nav>
-                }
+                  </Nav>
               </Collapse>
             </Navbar>
           </div>

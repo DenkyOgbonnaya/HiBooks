@@ -1,9 +1,8 @@
 import React,  {Component} from "react";
-import {Route, Switch, withRouter} from "react-router-dom";   
+import {Route, Switch} from "react-router-dom";   
 import RentLogs from "./includes/rentLogs";
 import ProfileDashboard from "./profile/dashboard";
 import ChangePassword from './authviews/changepassword'
-import {connect} from 'react-redux';
 import Notifications from './adminViews/notifications';
 import About from './includes/about';
 import Contact from "./includes/contact";
@@ -17,22 +16,20 @@ import ForgotPassword from "./authviews/forgotpassword";
 import Dashboard from "./books/Dashboard";
 import CategoryDashboard from './adminViews/categories/dashboard';
 
-class Routes extends Component{
-
-    render(){
-        
+const Routes = () => {
+    //const {authenticated} = this.props;
         return(
             <div className= 'content'> 
                 <Switch>
-                    <Route exact path= "/rentlogs" component= {RentLogs} /> 
-                    <Route exact path= {`/${this.props.user.name}`}  component= {ProfileDashboard}/>
-                    <Route exact path= {`/${this.props.user.name}/changePassword`}  component= {ChangePassword}/>
-                    <Route exact path= "/notifications" component={Notifications} />
-                    <Route exact path= "/books" component= {BooksDashboard}/>
-                    <Route exact path= "/users" component= {ManageUsers}/>
-                    <Route exact path= "/" component = {Dashboard} /> 
-                    <Route exact path= "/categories" component = { CategoryDashboard} /> 
-                    <Route exact path= "/signUp" component= {SignUp}/>
+                    <PrivateRoute exact path= "/rentlogs" component= {RentLogs} /> 
+                    <PrivateRoute exact path= '/profile'  component= {ProfileDashboard}/>
+                    <PrivateRoute exact path= '/changePassword'  component= {ChangePassword}/>
+                    <PrivateRoute exact path= "/notifications" component={Notifications} />
+                    <PrivateRoute exact path= "/books" component= {BooksDashboard}/>
+                    <PrivateRoute exact path= "/users" component= {ManageUsers}/>
+                    <PrivateRoute exact path= "/" component = {Dashboard}  /> 
+                    <PrivateRoute exact path= "/categories" component = { CategoryDashboard} /> 
+                    <PrivateRoute exact path= "/signUp" component= {SignUp}/>
                     <Route exact path= "/login" component= {Login}/>
                     <Route exact path= "/about" component= {About}/>
                     <Route exact path= "/contact" component= {Contact}/>
@@ -41,13 +38,6 @@ class Routes extends Component{
                 <Footer />
             </div>  
         )  
-    } 
-}
-const mapStateToProps = (state)=> {
-    return {
-        user: state.auth.currentUser
-    }
 }
 
-
-export default withRouter(connect(mapStateToProps)(Routes));
+export default Routes; 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router} from "react-router-dom";
-import Header from "./components/dashboards/navheader";
+import Header from "./components/includes/navheader";
 import Routes from "./components/routes";
 import {connect} from 'react-redux';
 import {authToken, toggleSideBar} from './redux/actions/authActions';
@@ -23,7 +23,7 @@ render(){
                 <div className="wrapper" id={this.props.hideSidebar ? '' : 'diplaySidebar'}>
                     <div className= 'sidebar' onClick= {()=> this.props.closeSideBar()} >
                     {
-                        true ? < SideNav /> : ''
+                        this.props.authenticated ? < SideNav /> : ''
                     }
                     </div>
                     <div className= 'main' >
