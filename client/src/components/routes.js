@@ -1,23 +1,23 @@
 import React,  {Component} from "react";
-import {Route, Switch, withRouter, Redirect } from "react-router-dom";   
-import RentLogs from "./rentLogs";
+import {Route, Switch, withRouter} from "react-router-dom";   
+import RentLogs from "./includes/rentLogs";
 import ProfileDashboard from "./profile/dashboard";
 import ChangePassword from './authviews/changepassword'
 import {connect} from 'react-redux';
-import Notifications from './notifications';
-import About from './about';
-import Contact from "./contact";
+import Notifications from './adminViews/notifications';
+import About from './includes/about';
+import Contact from "./includes/contact";
 import ManageUsers from "./adminViews/manageusers";
 import BooksDashboard from './adminViews/books/bookdashboard';
 import PrivateRoute from './authviews/privateRoute';
-import Footer from './footer'
+import Footer from './includes/footer'
 import Login from "./authviews/login";
 import SignUp from './authviews/signup';
 import ForgotPassword from "./authviews/forgotpassword";
 import Dashboard from "./books/Dashboard";
 import CategoryDashboard from './adminViews/categories/dashboard';
 
-class Content extends Component{
+class Routes extends Component{
 
     render(){
         
@@ -50,4 +50,4 @@ const mapStateToProps = (state)=> {
 }
 
 
-export default withRouter(connect(mapStateToProps)(Content));
+export default withRouter(connect(mapStateToProps)(Routes));

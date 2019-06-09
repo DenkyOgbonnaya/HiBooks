@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router} from "react-router-dom";
 import Header from "./components/dashboards/navheader";
-import Content from "./components/content";
+import Routes from "./components/routes";
 import {connect} from 'react-redux';
 import {authToken, toggleSideBar} from './redux/actions/authActions';
-import SideNav from './components/dashboards/sidenav';
+import SideNav from './components/includes/sidenav';
 import './App.css';
 
 class App extends Component {
@@ -27,7 +27,7 @@ render(){
                     }
                     </div>
                     <div className= 'main' >
-                        <Content />
+                        <Routes />
                         
                     </div>
                     

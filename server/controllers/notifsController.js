@@ -19,7 +19,7 @@ module.exports.getNotifs = async function getNotifs(req, res){
 
 module.exports.getUserNotif = async function getUserNotif(req, res){
     const{userId} = req.params;
-    constlimit = 10
+    const limit = 10
     try{
         const notifications = await Notification.find({userId}).sort({time: 'desc'}).limit(limit)
         return res.status(200).send({notifications})

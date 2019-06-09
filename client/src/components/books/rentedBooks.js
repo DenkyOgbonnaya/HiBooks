@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Row, Col, Card,CardBody, CardImg, CardSubtitle , CardTitle, CardText, Button} from 'reactstrap';
+import {Container, Row, Col, Card,CardBody, CardImg, CardTitle, CardText, Button} from 'reactstrap';
 import {connect} from 'react-redux';
 import {returnBook, rentedBooks} from '../../redux/actions/bookActions';
 
@@ -17,7 +17,7 @@ class RentedBooks extends Component {
             <div> 
                 <h4> Your borrowed Books </h4>
                 {
-                rentedBooks.length == 0 
+                rentedBooks.length === 0 
                 ?
                 <div> You have no borrowedBooks</div>
                 :

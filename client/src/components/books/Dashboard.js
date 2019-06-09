@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import SearchField from '../searchfield';
+import SearchField from '../includes/searchfield';
 import {getAllBooks, getCategories, searchBook} from '../../redux/actions/bookActions';
 import BookList from './bookList';
 import Spinnar from '../utils/spinner';
@@ -15,7 +15,7 @@ class DashBoard extends Component {
     componentDidMount(){
         this.props.getAllBooks(1, 20);
         this.props.getCategories();
-        if(this.props.allBooks.length > 0)
+        //if(this.props.allBooks.length > 0)
             this.setState({isLoading: false});
     }
     setSearch = search => {

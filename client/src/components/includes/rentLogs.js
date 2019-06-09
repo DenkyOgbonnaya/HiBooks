@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Card, CardBody, CardText, CardTitle, Button, Col, Row, Container} from 'reactstrap';
-import {rentHistory} from '../redux/actions/bookActions';
+import {Card, CardBody, CardText} from 'reactstrap';
 
 class RentLogs extends Component{
     state= {notifications: []};
@@ -22,7 +21,8 @@ class RentLogs extends Component{
     }
 
     render(){
-        if(this.state.notifications.length === 0) 
+        const{notifications} = this.state;
+        if(!notifications || notifications.length === 0) 
         return(
             <div>You have no logs </div>
         )

@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
-import {Container, Row, Col, Button, Table, Input, FormText, FormFeedback} from 'reactstrap';
+import {Container, Row, Col, Button, Table, Input, FormText} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import {userNameExist, emailExist, editProfile}from '../../redux/actions/authActions';
-import ChangePassword from "../authviews/changepassword";
 
 class UserProfile extends Component{
     state ={
@@ -24,7 +23,7 @@ class UserProfile extends Component{
     }
     
     editProfile = () => {
-        if(this.state.button == 'Edit profile'){
+        if(this.state.button === 'Edit profile'){
             this.setState({isDisabled: false})
             this.setState({button: 'Save changes'})
         }else{
@@ -47,7 +46,6 @@ class UserProfile extends Component{
     }
     onFocus = e => {
         let name = e.target.name;
-        let value = e.target.value
 
         switch(name){
             case 'name' :
@@ -67,11 +65,10 @@ class UserProfile extends Component{
                     emailMessage: ''
                 })
             break;
-           
+           default: 
         } 
     }
     onBlur = e => {
-        let name = e.target.name;
         let value = e.target.value;
 
         switch(e.target.name){
@@ -85,7 +82,7 @@ class UserProfile extends Component{
                     this.setState({nameError: 'Name must be minimum of 5 characters'})
                 }else{
                     userNameExist(value)
-                    .then(res =>{ if(res.status ==200) return res.json()})
+                    .then(res =>{ if(res.status === 200) return res.json()})
                     .then(data => {data.userNameExist
                         ? 
                         this.setState({nameExist: data.userNameExist, nameMessage: data.message})
@@ -101,7 +98,7 @@ class UserProfile extends Component{
                     this.setState({emailError: 'provide a valid email address'})
                 }else{
                     emailExist(value)
-                    .then(res =>{ if(res.status ==200) return res.json()})
+                    .then(res =>{ if(res.status === 200) return res.json()})
                     .then(data => {data.emailExist
                         ? 
                         this.setState({emailExist: data.emailExist, emailMessage: data.message})
@@ -126,7 +123,7 @@ class UserProfile extends Component{
                     <Row>
                         <Col sm="12" md={{ size: 6, offset: 3 }}>
                             <div style ={{textAlign: 'center'}}> 
-                                <img src='/images/icons/user.png' />
+                                <img src='/images/icons/user.png' alt='user icon' />
                                 <p>{this.props.user.name} </p>
                             </div>
                         </Col>

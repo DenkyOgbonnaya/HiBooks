@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import UserProfile from './userProfile';
 import RentedBooks from '../books/rentedBooks';
 

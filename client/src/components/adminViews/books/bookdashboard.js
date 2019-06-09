@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {getAllBooks, searchBook, getCategories} from '../../../redux/actions/bookActions';
 import actionType from '../../../redux/actions/actionType';
 import Spinnar from '../../utils/spinner';
-import SearchField from '../../searchfield';
+import SearchField from '../../includes/searchfield';
 import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 
 class BookDashboard extends Component{
@@ -17,7 +17,7 @@ class BookDashboard extends Component{
     componentDidMount(){
         this.props.getAllBooks(1, 20);
         this.props.getCategories();
-        if(this.props.allBooks.length > 0)
+        //if(this.props.allBooks.length > 0)
             this.setState({isLoading: false});
     }
     setSearch = search => {

@@ -3,7 +3,6 @@ import BookForm from './bookform';
 import {Button} from 'reactstrap';
 import {connect} from 'react-redux';
 import {deleteBook} from '../../../redux/actions/bookActions';
-import actionType from '../../../redux/actions/actionType';
 
 class EditableBook extends Component{
     state = {

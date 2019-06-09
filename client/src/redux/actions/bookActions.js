@@ -1,6 +1,5 @@
 import actionType from './actionType'; 
 import swal from 'sweetalert';
-import jwt from 'jsonwebtoken'
 
 /* @Description....adds a new book
 * @Param {obj}....book object
