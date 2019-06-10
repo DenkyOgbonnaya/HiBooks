@@ -15,6 +15,7 @@ import SignUp from './authviews/signup';
 import ForgotPassword from "./authviews/forgotpassword";
 import Dashboard from "./books/Dashboard";
 import CategoryDashboard from './adminViews/categories/dashboard';
+import PasswordReset from "./authviews/passwordReset";
 
 const Routes = () => {
     //const {authenticated} = this.props;
@@ -30,6 +31,7 @@ const Routes = () => {
                     <PrivateRoute exact path= "/" component = {Dashboard}  /> 
                     <PrivateRoute exact path= "/categories" component = { CategoryDashboard} /> 
                     <PrivateRoute exact path= "/signUp" component= {SignUp}/>
+                    <Route exact path= "/passwordReset" component= {PasswordReset}/>
                     <Route exact path= "/login" component= {Login}/>
                     <Route exact path= "/about" component= {About}/>
                     <Route exact path= "/contact" component= {Contact}/>

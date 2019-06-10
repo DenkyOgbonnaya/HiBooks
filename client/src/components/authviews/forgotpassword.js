@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {Form, Input, Button, FormGroup, Label} from 'reactstrap';
-import {forgotPassword} from '../../redux/actions/authActions';
-import swal from 'sweetalert';
+import Swal from 'sweetalert';
 
 class ForgotPassword extends Component{
     state = {email: '', message:''}
 
-    onChange = e => {
+    handleInputChange = e => {
         this.setState({
             [e.target.name]: e.target.value
         })
@@ -14,13 +13,13 @@ class ForgotPassword extends Component{
     handleSubmit = e => {
         e.preventDefault()
         const{email} =  this.state
-            fetch(`api/users/passwordReset/${email}`)
+            fetch(`api/users/${email}/reset`)
             .then(res => {return res.json()})
             .then((data) => {
-                if(!data.success){
+                if(!data.status === 'success'){
                     this.setState({message: data.message})
                 }else
-                    swal(data.message)
+                    Swal(data.message);
             })
             .catch(err => console.log(err))
        
@@ -35,7 +34,7 @@ class ForgotPassword extends Component{
                         <Label for='email' > Enter email </Label>
                         <Input type='email' name='email' value={this.state.email} 
                         placeholder='provide the email address used for registration'
-                        onChange={this.onChange} required 
+                        onChange={this.handleInputChange} required 
                         style={inputStyle}
                         />
                         <div>{this.state.message} </div>

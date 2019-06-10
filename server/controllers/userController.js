@@ -104,17 +104,15 @@ const userController = {
             res.status(400).send(err);
         }
     },
-    //this needs a fix
-    /*async resetLink(req, res){
+    async resetLink(req, res){
         const{email} = req.params;
-
         try{
             const user = await User.findOne({email});
             if(!user)
                 return res.status(400).send({message: 'Bad request'});
 
             const token = jwt.sign(
-                {currentUser: _.pick(updatedUser, "name", "email", "location", "role", "plan")},
+                {currentUser: _.pick(user, "email", "_id")},
                 process.env.SECRET_KEY,
                 {expiresIn: '24h'}
             )
@@ -125,51 +123,56 @@ const userController = {
                 html: `<h3>Hi ${user.name} </h3><br/>
                 <p>You recently requested for a password reset. click on the
                 link below to reset your password, ignore if it wasn't you. Please bear in mind
-                this link will expire in 1hr, be sure to use it right away. <br />
+                this link will expire in 24hrs, be sure to use it right away. <br />
                 <a href= 'http://localhost:8080/api/users/resetPassword/${user._id}/${token}'>Reset password </a>
                 <br /> Thank you for using HiBooks!. </p>`
             }
-                //const info = await transporter.sendMail(mailOptions);
-                return res.status(200).send({success:true, message: 'A link has been sent to your mail to reset your password'});
+                const info = await transporter.sendMail(mailOptions);
+                return res.status(200).send({status: 'success', message: 'A link has been sent to your mail to reset your password'});
 
         }catch(err){
+            console.log(err)
             res.status(400).send(err);
         }
     },
-    async passwordReset(req, res){
+    passwordReset(req, res){
         const{userId, token} = req.params;
-
-        try{
             jwt.verify(token, process.env.SECRET_KEY , (err, decoded) => {
                 if(err)
-                    res.redirect('/error');
+                    return res.redirect(`http://localhost:3000/error`)
                 const{currentUser} = decoded;
 
-                const user = await User.findById(currentUser._id, {password: 0});
-                if(!user)
-                    return res.status(400).send({message: 'Bad request'})
-                res.redirect(`/passwordReset/${user.email}`)
+                User.findById(userId)
+                .then(user => {
+                    if(!user)
+                    return res.redirect(`http://localhost:3000/error`)
+
+                res.redirect(`http://localhost:3000/passwordReset?email=${user.email}`);
+                })
+                .catch(err => {
+                    res.redirect(`http://localhost:3000/error`)
+                })
+                
             })
-        }catch(err){
-            res.status(400).send(err);
-        }
     },
     async resetPassword(req, res){
         const{password, email} = req.body;
+
+        if(!password) return res.status(400).send({message: 'enter a new password'})
         const hashedPassword = bcrypt.hashSync(password, 8);
 
         try{
             const user = await User.findOneAndUpdate({email}, {$set: {password: hashedPassword}});
             const token = jwt.sign(
-                {currentUser: user},
+                {currentUser: _.omit(user, "password")},
                 process.env.SECRET_KEY,
                 {expiresIn: '24h'}
             )
-            res.redirect('/')
+            return res.status(200).send({status: 'success', token})
         }catch(err){
             res.status(400).send(err)
         }
-    },*/
+    },
     nameExist(req, res){
         User.findOne({name: req.params.name}, {password: 0})
         .then(user =>{

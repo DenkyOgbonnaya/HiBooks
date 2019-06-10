@@ -22,10 +22,10 @@ UserRouter.post('/login', validateLogin, checkValidationResult, loginUser);
 UserRouter.get('/verifyToken', verifyToken);
 UserRouter.put('/:userId/profile', validateProfile, checkValidationResult, updateProfile);
 UserRouter.put('/:userId/password', changePassword);
-//the commented end points need a fix
-/*UserRouter.get('/:email/reset', resetLink)
-UserRouter.get('/passwordReset/:userId/:token', passwordReset)
-UserRouter.put('/resetPassword', resetPassword)*/
+UserRouter.get('/:email/reset', resetLink)
+
+UserRouter.get('/resetPassword/:userId/:token', passwordReset)
+UserRouter.put('/resetPassword', resetPassword)
 UserRouter.get('/nameExist/:name', nameExist);
 UserRouter.get('/emailExist/:email', emailExist);
 UserRouter.post('/contact', contact);
