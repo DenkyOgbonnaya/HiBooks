@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Form, FormGroup, Label, Input, Button} from 'reactstrap';
+import Swal from 'sweetalert';
 
 class Contact extends Component { 
     state = {
@@ -26,11 +27,11 @@ class Contact extends Component {
             return res.json();
         })
         .then(data => {
-            if(data.success){
-                alert('mail successfully sent')
+            if(data.status === 'success'){
+                Swal(data.message);
             }
             else{
-                alert('failed to send mail')
+                Swal(data.message);
             }
         })
         .catch(err => console.log(err));

@@ -78,7 +78,7 @@ const userController = {
             process.env.SECRET_KEY,
             {expiresIn: '24h'}
         )
-        return res.status(200).send({token})
+        return res.status(200).send({status: 'success', token})
         }catch(err){
             res.status(400).send(err);
         }
@@ -217,9 +217,9 @@ const userController = {
         })
         .then(info => {
             if(!info){
-               return  res.status(500).send({success: false, message: 'fail to send mail' }) 
+               return  res.status(500).send({status: 'failed', message: 'fail to send mail' }) 
             }else
-            res.status(200).send({success: true, message: 'Mail sent'})
+            res.status(200).send({status: 'success', message: 'Mail sent, thanks for your feed back'})
         })
         .catch(err => { res.status(500).send(err)})
     }

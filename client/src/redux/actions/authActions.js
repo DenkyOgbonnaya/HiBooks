@@ -113,29 +113,30 @@ export const emailExist = email => {
 }
 export const editProfile = (userId, newData) => {
     return dispatch => {
-        fetch(`api/users/editProfile/${userId}`, {
+        fetch(`api/users//${userId}/profile`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.userToken}`
             },
-            body: JSON.stringify({newData})
+            body: JSON.stringify(newData)
         })
 
         .then(res => {
-            if(res.status === 201)
-                return res.json()
+            return res.json()
         })
         .then(data => {
-            localStorage.userToken = data.token;
-            const decoded = jwt.decode(data.token);
-            swal(data.message)
-            dispatch({
-                type: actionType.LOGIN_USER,
-                currentUser: decoded.currentUser,
-                authenticated: true
-            })
+            if(data.status === 'success'){
+                localStorage.userToken = data.token;
+                const decoded = jwt.decode(data.token);
+                swal('profile successfully updated')
+                dispatch({
+                    type: actionType.LOGIN_USER,
+                    currentUser: decoded.currentUser,
+                    authenticated: true
+                })
+            }else swal(data.message)
         })
     }
 }
