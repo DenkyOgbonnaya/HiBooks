@@ -5,10 +5,11 @@ import EditableBook from './editableBook';
 class EditableBookList extends Component {
 
     render(){
+        const style = {color: '#ccc'}
         const{books, deletBook} = this.props;
         return(
             <div> 
-                <Table size='sm' hover responsive > 
+                <Table style= {style} size='sm' responsive > 
                     <thead> 
                         <tr> 
                             <th>Title </th>

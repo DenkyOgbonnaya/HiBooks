@@ -3,7 +3,6 @@ import ToggleableBookForm from './toggleableform';
 import EditableBookList from './editableBookList';
 import {connect} from 'react-redux';
 import {getAllBooks, searchBook, getCategories} from '../../../redux/actions/bookActions';
-import actionType from '../../../redux/actions/actionType';
 import Spinnar from '../../utils/spinner';
 import SearchField from '../../includes/searchfield';
 import {Pagination, PaginationItem, PaginationLink} from 'reactstrap';

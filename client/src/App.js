@@ -19,13 +19,14 @@ render(){
         <Router>
             <div className= "App"> 
                 <Header /> 
-                <br />
                 <div className="wrapper" id={this.props.hideSidebar ? '' : 'diplaySidebar'}>
-                    <div className= 'sidebar' onClick= {()=> this.props.closeSideBar()} >
                     {
-                        this.props.authenticated ? < SideNav /> : ''
+                        this.props.isAuthenticated ?
+                        <div className= 'sidebar' onClick= {()=> this.props.closeSideBar()} >
+                            < SideNav /> 
+                        </div> : null
                     }
-                    </div>
+                    
                     <div className= 'main' >
                         <Routes />
                         
@@ -44,7 +45,7 @@ render(){
 const mapStateToProps = (state)=> {
 return{
     currentUser: state.auth.currentUser,
-    authenticated: state.auth.authenticated,
+    isAuthenticated: state.auth.authenticated,
     hideSidebar: state.auth.hideSidebar,
 }
 } 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Form, FormGroup, Label, Input, Button,
-        FormFeedback, FormText } from  'reactstrap';
+        FormFeedback } from  'reactstrap';
 import {connect} from 'react-redux';
 import {changePassword} from '../../redux/actions/authActions';
 
@@ -23,11 +23,13 @@ class ChangePassword extends Component{
 
         switch(name){
             case 'confirmPassword' :
-            value == this.state.newPassword
+            value === this.state.newPassword
             ?
             this.setState({passwordMatch: true, message: 'match!'})
             :
             this.setState({passwordMatch: false, message: 'didnt match!'})
+            break
+            default:
         }
     }
     handleSubmit = e => {

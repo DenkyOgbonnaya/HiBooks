@@ -45,7 +45,6 @@ export const login = userData => {
             body: JSON.stringify(userData)
         })
         .then(res=> {
-            if(res.status === 200)
             return res.json();
         })
         .then((data)=> {

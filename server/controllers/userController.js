@@ -38,7 +38,7 @@ const userController = {
             if(!user)
                 return res.status(403).send({
                 authenticated: false,
-                message: 'incorrect email and password combination'})
+                message: 'incorrect email and password combination!'})
             
             const validPassword = bcrypt.compareSync(password, user.password);
 

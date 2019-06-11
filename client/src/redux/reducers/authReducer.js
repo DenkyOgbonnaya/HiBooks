@@ -3,7 +3,6 @@ import actionType from '../actions/actionType';
 const initState = {
     currentUser : {},
     authenticated : false,
-    showButtonGroup: false,
     message: '',
     hideSidebar: true
 }

@@ -3,7 +3,7 @@ const User= require('../model/user');
 const Book = require('../model/book');
 const RentedBook = require('../model/rentedBook');
 const userPlan = require('../model/userPlan');
-const notifications = require('./notifsController');
+const {createNotification} = require('./notifsController');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 
@@ -106,7 +106,7 @@ const bookController = {
                 expectedReturn: moment().add(daysBeforeReturn, 'days').format('MMMM Do YYYY h:mm:ss a')
             })
             const book = await Book.findByIdAndUpdate(bookId, {$inc: {quantity: -1}})
-            await notifications.createNotifs(currentUser._id, currentUser.name, book.title, 'rented');
+            await createNotification(currentUser._id, currentUser.name, book.title, 'rented');
             return res.status(200).send({status: 'success', message: `Book rented /n expectedReturn: ${rented.expectedReturn}`, });
 
         }catch(err){
@@ -137,7 +137,7 @@ const bookController = {
             await RentedBook.findOneAndUpdate({book: bookId, borrower: userId}, {$set: {returned: true, ReturnDate: Date.now()}});
             const book = await Book.findByIdAndUpdate(bookId, {$inc: {quantity: 1}});
 
-            await notifications.createNotifs(currentUser._id, currentUser.name, book.title, 'returned');
+            await createNotification(currentUser._id, currentUser.name, book.title, 'returned');
             return res.status(200).send({message: 'Book successfully returned', bookId: book._id});
         }catch(err){
             console.log(err)

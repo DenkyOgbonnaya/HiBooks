@@ -23,13 +23,14 @@ class DashBoard extends Component {
 }
 
 const CategoryList = ({categories}) => {
+    const style = {color: '#ccc'}
     if(categories)
     return(
         <div> 
-            <Table> 
-                <thead> 
+            <Table style = {style} responsive size='sm'  > 
+                <thead>
                     <tr> 
-                        <th> Name </th>
+                        <th > Name </th>
                         <th> Actions </th>
                     </tr>
                 </thead>

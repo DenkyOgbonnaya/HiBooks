@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 import {login} from '../../redux/actions/authActions';
 import '../../styles/authviews.css';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 
 class Login extends Component{
         state = {
@@ -13,8 +13,10 @@ class Login extends Component{
         }
         
     loginUser = (e)=> {
+        const {from} = this.props.location.state || {from : {pathName: '/' }}
+
         this.props.login(this.state);
-        this.props.history.push('/');
+        this.props.history.push(from.pathname || from.pathName);
         e.preventDefault();
     }
     onChange = (e)=> { 
@@ -28,6 +30,7 @@ class Login extends Component{
         return(
             <div className = 'authForm'> 
                 <div className = 'form'>
+                    {this.props.message ? <Alert color='danger'>{this.props.message} </Alert> : null}
                     <h5>Login to HiBooks </h5>
                     <Form onSubmit = {this.loginUser} >
                         <FormGroup inline className="mb-2 mr-sm-2 mb-sm-0">
@@ -44,7 +47,6 @@ class Login extends Component{
                                 style={inputStyle} 
                             />
                         </FormGroup>
-                        <div> {this.props.message} </div>
                         <br />
                         <Button>Login</Button>{' '}
                         <Link to='/forgotPassword' > Forgot your password..? </Link>

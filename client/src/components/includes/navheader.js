@@ -9,6 +9,7 @@ import {
     NavItem,
     NavLink
      } from 'reactstrap';
+import {NavLink as RRNavLink} from 'react-router-dom';
     import {toggleSideBar} from "../../redux/actions/authActions";
   
 class NavHeader extends Component{
@@ -22,30 +23,39 @@ class NavHeader extends Component{
         });
         this.props.toggleSideBar();
       }
-      
+    
     render(){
       const{isAuthenticated} = this.props;
         return(
-            <div>
-              <hr />
-            <Navbar dark style={{ backgroundColor: '#333', borderColor: '#333' }}  expand="md">
-              <NavbarBrand style = {{fontSize: '20px'}} href="/">HiBooks</NavbarBrand>
-              <NavbarToggler onClick={this.toggle} />
-              <Collapse isOpen={this.state.isOpen} navbar>
-                  <Nav className="ml-auto" navbar>
-                  <NavItem>
-                    <NavLink to='/login' name='Login' />
-                  </NavItem>
-                  <NavItem>
-                    <NavLink to='/signUp' name='Sign Up' />
-                  </NavItem>
-                  <NavItem>
-                    <NavLink to='/about' name='About' />
-                  </NavItem>
-                  </Nav>
-              </Collapse>
-            </Navbar>
-          </div>
+          <div>
+        <Navbar style={{ backgroundColor: '#333', borderColor: '#333' }} dark expand={isAuthenticated ? "md" : "xs"}>
+          <NavbarBrand href="/">HiBooks</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+          {
+            isAuthenticated ? 
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+              <NavLink to='/about' tag={RRNavLink} > About </NavLink>
+            </NavItem>
+          </Nav>
+             :
+            <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink to='/login' tag={RRNavLink} > Login </NavLink>
+            </NavItem>
+              <NavItem>
+              <NavLink to='/signup' tag={RRNavLink} > Signup </NavLink>
+            </NavItem>
+              <NavItem>
+              <NavLink to='/about' tag={RRNavLink} > About </NavLink>
+            </NavItem>
+          </Nav>
+          }
+           
+          </Collapse>
+        </Navbar>
+      </div> 
             
         )
         

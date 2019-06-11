@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {Redirect, Route, withRouter} from 'react-router-dom';
+import {Redirect, Route} from 'react-router-dom';
 
 const PrivateRoute = ({component: Component, ...rest}) => {
     const{authenticated} = rest

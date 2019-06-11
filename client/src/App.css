@@ -8,7 +8,7 @@
   background-color: #15191b;
   color: #ccc;
   width: 300px;
-  height:inherit;
+  height:100vh;
   position: sticky;
   z-index: 1;
   overflow-y: hidden;
@@ -23,10 +23,10 @@
   width: 100%;
   background: #212121;
   border: 1px solid black;
-  padding: inherit;
+  padding: 5px;
   color: #ccc;
-margin-bottom: 85px;
-align-items: stretch
+  margin-bottom: 85px;
+  align-items: stretch
 }
 .wrapper#diplaySidebar .sidebar{
   width: 250px;
@@ -44,7 +44,6 @@ align-items: stretch
   height: 70px;
   padding: 5px;
 }
-
 .footer{
   background: #333;
   width: 100%;
