@@ -17,7 +17,7 @@ class CategoryForm extends Component {
 
         if(!this.props._id){
             this.props.addCategory(this.state.name)
-            this.props.closeForm();
+            return
         }
         this.props.editCategory(this.props._id,  this.state.name)
         this.props.closeForm();

@@ -1,6 +1,6 @@
 const BookRouter = require('express').Router();
 const bookController = require('../controllers/booksController');
-const upload = require('../controllers/imageUploder');
+const {multerUploads} = require('../controllers/imageUploder')
 const {isLoggedIn, isAdmin, validateBookInputs, checkValidationResult} = require('../middlewares/validator');
 
 const{
@@ -15,7 +15,7 @@ const{
     searchBook
     } = bookController;
 BookRouter.route('/books')
-.post(isLoggedIn, isAdmin,  upload.single('image'), validateBookInputs, checkValidationResult, addBook)
+.post(isLoggedIn, isAdmin,  multerUploads, validateBookInputs, checkValidationResult, addBook)
 .get(getBooks)
 BookRouter.route('/books/:bookId')
 .get(isLoggedIn, getBook)

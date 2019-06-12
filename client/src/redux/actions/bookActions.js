@@ -10,7 +10,7 @@ return (dispatch, getState) => {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Authorization': `Bearer ${localStorage.userToken}`
+            'Authorization': `${localStorage.userToken}`
         },
           body: book
         })

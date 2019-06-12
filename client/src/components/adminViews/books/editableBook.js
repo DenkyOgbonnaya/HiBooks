@@ -13,7 +13,7 @@ class EditableBook extends Component{
     }
     
     render(){ 
-        const{_id, title, author, isbn, publishedYear, language, pages, about, category, cover} = this.props.book;
+        const{_id, title, author, isbn, publishedYear, language, pages, about, quantity, category, cover} = this.props.book;
         if(this.state.showBookForm){
             return(
                 <tr key = {_id}>
@@ -23,6 +23,7 @@ class EditableBook extends Component{
                      author = {author}
                      publishedYear = {publishedYear}
                      isbn = {isbn}
+                     quantity= {quantity}
                      language= {language}
                      pages = {pages}
                      category= {category}

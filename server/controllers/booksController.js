@@ -1,4 +1,3 @@
-
 const User= require('../model/user');
 const Book = require('../model/book');
 const RentedBook = require('../model/rentedBook');
@@ -6,15 +5,19 @@ const userPlan = require('../model/userPlan');
 const {createNotification} = require('./notifsController');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
+const {dataUri} = require('../controllers/imageUploder');
+const{uploader} = require('../services/cloudinary_setup');
 
 const bookController = {
     async addBook(req, res){
         const{title, author, about, category, quantity, language, publishedYear, pages, isbn} = req.body;
-        const cover = req.file.filename;
-        if(!cover)
+        if(!req.file)
             return res.status(400).send({message: 'No book cover selected'});
 
         try{
+            const file = dataUri(req).content;
+            const result = await uploader.upload(file);
+
             const book = await Book.create({
                 title,
                 author,
@@ -25,7 +28,8 @@ const bookController = {
                 language,
                 publishedYear,
                 pages,
-                cover: `/uploads/${cover}`
+                cover: result.url,
+                publicId: result.public_id
             })
             return res.status(201).send({status: 'success', message: 'new book added', book})
 
@@ -64,8 +68,12 @@ const bookController = {
         const{bookId} = req.params;
 
         try{
-            const deleteBook = await Book.findByIdAndRemove(bookId)
-            return res.status(200).send({message:'Book successfully deleted'});
+            const deletedBook = await Book.findByIdAndRemove(bookId)
+            uploader.destroy(deletedBook.publicId, (err, result) => {
+                if(err) res.status(400).send(err);
+
+            return res.status(200).send({message:'Book successfully deleted', deletedBook});
+            });
         }catch(err){
             res.status(500).send(err);
         }

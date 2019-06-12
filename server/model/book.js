@@ -43,6 +43,7 @@ const bookSchema = new Schema({
         type: String,
         required: true
     },
+    publicId : String,
     created: {
         type : Date,
         default: Date.now()

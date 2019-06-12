@@ -36,10 +36,8 @@ class BookForm extends Component{
 
         if(!this.props._id){
           this.props.addBook(this.bookData);
-          this.props.closeBookForm();
         }else
         this.props.editBook(this.props._id, this.state);
-        this.props.closeBookForm()
       }
 
     render(){
@@ -89,9 +87,10 @@ class BookForm extends Component{
           </Col>
         </Row>
         <Row form>
-          <Col md={6}>
+        <Col md={4} >
             <FormGroup>
               <Label for="language">Language</Label>
+          
               <Input style={inputStyle} type="text" name="language" id="language" value= {this.state.language} 
                     onChange= {this.handleInputChange} required />
             </FormGroup>
@@ -99,7 +98,7 @@ class BookForm extends Component{
           <Col md={4}>
             <FormGroup>
               <Label for="ISBN">ISBN</Label>
-              <Input style={inputStyle} type="text" name="isbn" id="isbn" value= {this.state.ISBN} 
+              <Input style={inputStyle} type="text" name="isbn" id="isbn" value= {this.state.isbn} 
               onChange= {this.handleInputChange} required />
             </FormGroup>
           </Col>
