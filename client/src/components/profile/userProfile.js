@@ -197,11 +197,11 @@ class UserProfile extends Component{
     }
 }
     
-    const mapStateToProps = (state)=> {
-        return{
-            user: state.auth.currentUser,
+    const mapStateToProps = state => {
+        return {
+            user: state.auth.currentUser
         }
-    } 
+    }
     const mapDispatchToProps = dispatch => {
         return {
             editProfile: (userid, newData) => dispatch(editProfile(userid, newData))

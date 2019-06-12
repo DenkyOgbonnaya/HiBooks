@@ -187,7 +187,7 @@ export const rentBook = (userId, bookId) => {
 */
 export const rentedBooks = userId => {
     return (dispatch) => {
-        fetch(`api/users/${userId}/books`, {
+        fetch(`/api/users/${userId}/books`, {
             headers: {
                 'Accept': 'application/json', 
                 'Content-Type': 'application/json',

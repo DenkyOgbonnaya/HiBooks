@@ -119,9 +119,7 @@ const bookController = {
 
         try{
             const rentedBooks = await RentedBook.find({borrower: userId, returned}).populate('book');
-            if(rentedBooks.length > 0)
                 return res.status(200).send({rentedBooks});
-            return res.status(404).send({message: 'You have no rented books'});
         }catch(err){
             res.status(500).send(err)
         }

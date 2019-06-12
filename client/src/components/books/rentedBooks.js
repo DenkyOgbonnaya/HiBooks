@@ -6,20 +6,21 @@ import {returnBook, rentedBooks} from '../../redux/actions/bookActions';
 class RentedBooks extends Component {
 
     componentDidMount(){
-        this.props.getRentedBooks(this.props.user._id);
+        const userId = this.props.userId || this.props.match.params.userId;
+        this.props.getRentedBooks(userId);
     }
     returnBook = (bookId) => {
-        this.props.returnBook(bookId, this.props.user._id)
+        this.props.returnBook(bookId, this.props.userId);
     }
     render(){
         const{rentedBooks} = this.props;
         return(
             <div> 
-                <h4> Your borrowed Books </h4>
+                <h4> Borrowed Books </h4>
                 {
                 rentedBooks.length === 0 
                 ?
-                <div> You have no borrowedBooks</div>
+                <div> No borrowedBooks</div>
                 :
                     <Container> 
                         <Row>
@@ -34,7 +35,7 @@ class RentedBooks extends Component {
                                             <CardText> 
                                                 <small className='text-muted'> Expexted Return: {record.expectedReturn} </small>
                                             </CardText>
-                                            <Button style= {{float:"right", marginBottom:"1px"}} onClick= {(e)=> this.returnBook(record.book._id) }> Return </Button>
+                                            <Button disabled= {this.props.userId ? false : true} style= {{float:"right", marginBottom:"1px"}} onClick= {(e)=> this.returnBook(record.book._id) }> Return </Button>
                                         </CardBody>
                                     </Card>
                                     <br />
@@ -53,7 +54,6 @@ class RentedBooks extends Component {
 
 const mapStateToProps = (state)=> {
     return{
-        user: state.auth.currentUser,
         rentedBooks: state.books.rentedBooks
     }
 } 

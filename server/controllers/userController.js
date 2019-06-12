@@ -57,6 +57,14 @@ const userController = {
             res.status(400).send(err);
         }
     },
+    async getUsers(req, res){
+        try{
+            const users = await User.find({});
+            return res.status(200).send({status: 'success', users})
+        }catch(err){
+            res.status(500).send(err)
+        }
+    },
     async verifyToken(req, res){
         const token = req.headers['authorization'] ? req.headers['authorization'].substring(7).replace(/"/g, '') : '';
 

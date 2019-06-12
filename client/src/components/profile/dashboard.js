@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import UserProfile from './userProfile';
 import RentedBooks from '../books/rentedBooks';
+import {connect} from 'react-redux';
 
 class DashBoard extends Component {
 
@@ -8,10 +9,14 @@ class DashBoard extends Component {
         return(
             <div> 
                 <UserProfile />
-                <RentedBooks />
+                <RentedBooks userId = {this.props.user._id} />
             </div>
         )
     }
 }
-
-export default DashBoard;
+const mapStateToProps = (state)=> {
+    return{
+        user: state.auth.currentUser,
+    }
+} 
+export default connect(mapStateToProps)(DashBoard);

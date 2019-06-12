@@ -54,7 +54,7 @@ class SideNav extends React.Component {
                 <hr />
                 <NavItem>
                   <NavLink to='/books'  className='navLink'
-                  tag={RRNavLink}> <img src='/images/icons/edit.png'alt=''/> Manage books</NavLink>
+                  tag={RRNavLink}> <img src='/images/icons/edit.png'alt=''/> Books</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink to='/categories'  className='navLink'
@@ -62,7 +62,7 @@ class SideNav extends React.Component {
                 </NavItem>
                 <NavItem>
                   <NavLink to='/users' className='navLink'
-                  tag={RRNavLink}> <img src='/images/icons/users.png' alt=''/>  Manage users </NavLink>
+                  tag={RRNavLink}> <img src='/images/icons/users.png' alt=''/>  Users </NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink to='/notifications' className='navLink'
