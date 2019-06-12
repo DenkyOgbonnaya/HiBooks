@@ -24,7 +24,7 @@ UserRouter.get('/verifyToken', verifyToken);
 UserRouter.put('/:userId/profile', validateProfile, checkValidationResult, updateProfile);
 UserRouter.put('/:userId/password', changePassword);
 UserRouter.get('/:email/reset', resetLink);
-UserRouter.get('/', getUsers)
+UserRouter.get('/all', getUsers)
 
 UserRouter.get('/resetPassword/:userId/:token', passwordReset)
 UserRouter.put('/resetPassword', resetPassword)

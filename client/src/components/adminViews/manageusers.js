@@ -11,7 +11,7 @@ class UsersDashboard extends Component {
         isLoading : true
     }
     componentDidMount(){
-        fetch('/api/users/')
+        fetch('/api/users/all')
         .then(res => {return res.json()})
         .then(data => {
             if(data.status === 'success'){
