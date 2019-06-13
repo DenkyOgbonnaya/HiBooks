@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import Header from "./components/includes/navheader";
 import Routes from "./components/routes";
 import {connect} from 'react-redux';
@@ -11,31 +11,34 @@ class App extends Component {
   componentWillMount(){
     const token = localStorage.getItem('userToken');
     if(token){
-        this.props.authToken(token);
+       this.props.authToken(token);
     }
+}
+componentDidUpdate(prevProps){
+    if(this.props.isAuthenticated !== prevProps.isAuthenticated)
+        this.props.history.push('/')
+        
 }
 render(){
     return(
-        <Router>
-            <div className= "App"> 
-                <Header /> 
-                <div className="wrapper" id={this.props.hideSidebar ? '' : 'diplaySidebar'}>
-                    {
-                        this.props.isAuthenticated ?
-                        <div className= 'sidebar' onClick= {()=> this.props.closeSideBar()} >
-                            < SideNav /> 
-                        </div> : null
-                    }
+        <div className= "App"> 
+            <Header /> 
+            <div className="wrapper" id={this.props.hideSidebar ? '' : 'diplaySidebar'}>
+                {
+                    this.props.isAuthenticated ?
+                    <div className= 'sidebar' onClick= {()=> this.props.closeSideBar()} >
+                        < SideNav /> 
+                    </div> : null
+                }
                     
-                    <div className= 'main' >
-                        <Routes />
+                <div className= 'main' >
+                    <Routes />
                         
-                    </div>
-                    
                 </div>
-                
+                    
             </div>
-        </Router>
+                
+        </div>
         
     )   
 }           
@@ -57,4 +60,4 @@ return{
 }
 }   
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

@@ -12,7 +12,7 @@ class DashBoard extends Component {
         category: 'All'
     }
     componentDidMount(){
-        this.props.getAllBooks(1, 20);
+        this.props.getAllBooks(1, 8);
         this.props.getCategories();
     }
     setSearch = search => {
