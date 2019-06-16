@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import BookForm from './bookform';
 import {Button} from 'reactstrap';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import {deleteBook} from '../../../redux/actions/bookActions';
 
 class EditableBook extends Component{
@@ -37,7 +38,7 @@ class EditableBook extends Component{
             <tr key = {_id}> 
                 <td> {title} </td>
                 <td> {author} </td>
-                <td> <Button size='sm' color='success'>View </Button> </td>
+                <td> <Button size='sm' color='success' onClick = {() => this.props.history.push(`/books/${_id}`)} >View </Button> </td>
                 <td> <Button size='sm' color='warning' onClick = {() => this.setState({showBookForm: true})}>Edit </Button> </td>
                 <td> <Button size='sm' color='danger' onClick = {() => this.props.deleteBook(_id)}>Delete </Button> </td>
             </tr>
@@ -51,4 +52,4 @@ const mapDispatchToprops = dispatch => {
     }
 }   
 
-export default connect(null, mapDispatchToprops)(EditableBook);
+export default withRouter(connect(null, mapDispatchToprops)(EditableBook));

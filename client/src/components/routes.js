@@ -17,6 +17,7 @@ import Dashboard from "./books/Dashboard";
 import CategoryDashboard from './adminViews/categories/dashboard';
 import PasswordReset from "./authviews/passwordReset";
 import RentedBooks from "./books/rentedBooks";
+import BookDetails from "./books/bookDetails";
 
 const Routes = () => {
         return(
@@ -25,6 +26,7 @@ const Routes = () => {
                     <PrivateRoute exact path= "/" component = {Dashboard}  /> 
                     <PrivateRoute exact path= "/rentlogs" component= {RentLogs} /> 
                     <PrivateRoute exact path= "/:userId/books" component= {RentedBooks} />
+                    <PrivateRoute exact path= "/books/:bookId" component= {BookDetails} />
                     <PrivateRoute exact path= '/profile'  component= {ProfileDashboard}/>
                     <PrivateRoute exact path= '/changePassword'  component= {ChangePassword}/>
                     <PrivateRoute exact path= "/notifications" component={Notifications} />
