@@ -22,7 +22,6 @@ componentDidUpdate(prevProps){
 render(){
     return(
         <div className= "App"> 
-            <Header /> 
             <div className="wrapper" id={this.props.hideSidebar ? '' : 'diplaySidebar'}>
                 {
                     this.props.isAuthenticated ?
@@ -32,7 +31,12 @@ render(){
                 }
                     
                 <div className= 'main' >
-                    <Routes />
+                    <div className= 'header' > 
+                        <Header /> 
+                    </div>
+                    <div className = 'routes'> 
+                        <Routes />
+                    </div> 
                         
                 </div>
                     

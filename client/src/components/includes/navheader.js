@@ -33,13 +33,7 @@ class NavHeader extends Component{
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
           {
-            isAuthenticated ? 
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-              <NavLink to='/about' tag={RRNavLink} > About </NavLink>
-            </NavItem>
-          </Nav>
-             :
+            isAuthenticated ? '' :
             <Nav className="ml-auto" navbar>
             <NavItem>
               <NavLink to='/login' tag={RRNavLink} > Login </NavLink>

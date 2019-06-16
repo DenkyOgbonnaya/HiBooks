@@ -26,7 +26,7 @@ class RentedBooks extends Component {
                         <Row>
                             {rentedBooks.map(record=>
             
-                                <Col xs="12"  sm="12" md="3" key={record._id}>
+                                <Col  md="3" key={record._id}>
                                     <Card body inverse style={{ backgroundColor: '#333', borderColor: '#333', height: '400px' }}>
                                         <CardImg height='150px' width='100%' src={record.book.cover} />
                                         <CardBody >

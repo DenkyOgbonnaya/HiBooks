@@ -65,7 +65,7 @@ export const editBook = (_id, newData ) => {
                    type: actionType.MODIFY_BOOK,
                    book: data.book
                })
-            }
+            }else
             swal(`error: ${data.message}`)
         })
         .catch(err =>{

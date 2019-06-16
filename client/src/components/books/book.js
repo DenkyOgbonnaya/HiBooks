@@ -13,7 +13,7 @@ class Book extends Component {
         const book = this.props.book;
         return(
             <div> 
-                <Card color='primary' style = {{height: '350px'}}> 
+                <Card color='primary' style = {{height: '400px'}}> 
                     <CardImg top width="100%" height="150px" src={book.cover} alt='book cover' />
                      
                         <CardBody style = {{background: '#333'}}> 
@@ -23,7 +23,9 @@ class Book extends Component {
                                     {book.author} {book.publishedYear}
                                 </small>
                             </CardText>
+                            {book.quantity < 1 ? <span>Out of stock! </span> :
                             <Button onClick = { () => this.rentBook(book._id)}> Rent </Button>
+                            }
                         </CardBody>
                 </Card>
             </div>

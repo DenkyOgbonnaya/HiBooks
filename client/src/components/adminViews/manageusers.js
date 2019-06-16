@@ -53,7 +53,7 @@ const UserList = ({users, searchTerm}) =>
             <tbody> 
             {
                 users.filter(user => !searchTerm || user.name.toLowerCase().includes(searchTerm.toLowerCase())).map(user => 
-                    <tr> 
+                    <tr key = {user._id} > 
                         <td> {user.name} </td>
                         <td> {user.email} </td>
                         <td> {user.location} </td>

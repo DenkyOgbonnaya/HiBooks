@@ -9,7 +9,7 @@ class EditableBookList extends Component {
         const{books, deletBook} = this.props;
         return(
             <div> 
-                <Table style= {style} size='sm' responsive > 
+                <Table style= {style} size='sm' responsive borderless > 
                     <thead> 
                         <tr> 
                             <th>Title </th>

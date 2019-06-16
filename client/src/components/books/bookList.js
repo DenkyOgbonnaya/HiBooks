@@ -13,7 +13,7 @@ class BookList extends Component {
                     <Row> 
                         {
                             books.map(book => 
-                                <Col md='3' key = {book._id} >
+                                <Col md='3' xs='6' key = {book._id} >
                                     <Book  book = {book} />
                                     <br />
                                 </Col>

@@ -27,7 +27,7 @@ const CategoryList = ({categories}) => {
     if(categories)
     return(
         <div> 
-            <Table style = {style} responsive size='sm'  > 
+            <Table style = {style} responsive size='sm' borderless  > 
                 <thead>
                     <tr> 
                         <th > Name </th>

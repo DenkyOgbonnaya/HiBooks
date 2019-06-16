@@ -8,8 +8,8 @@ class DashBoard extends Component {
     render(){
         return(
             <div> 
-                <UserProfile />
-                <RentedBooks userId = {this.props.user._id} />
+                <UserProfile /> 
+                <RentedBooks userId = {this.props.user._id} /> 
             </div>
         )
     }

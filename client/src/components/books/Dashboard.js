@@ -29,7 +29,7 @@ class DashBoard extends Component {
         this.props.searchBook(search, category)
     }
     handlePageChange = (pageNum) => {
-        this.props.getAllBooks(pageNum, 20)
+        this.props.getAllBooks(pageNum, 8)
     }
     displayPageNums = () => {
         const pageNumbers = [];

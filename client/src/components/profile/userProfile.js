@@ -131,7 +131,7 @@ class UserProfile extends Component{
                     <Row>
                         <Col sm={{ size: 'auto', offset: 4 }}> 
                             <div> 
-                                <Table style = {{color: '#ccc'}} responsive >
+                                <Table style = {{color: '#ccc'}} responsive borderless >
                                     <tbody>
                                         <tr>
                                             <td> Name</td>
