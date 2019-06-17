@@ -5,7 +5,7 @@ Hibooks is a simple application that manages a library and it processes like sto
 
 *user= 'admin' pass= 'admin'*
 
-[! alt text](https://res.cloudinary.com/diibyv2i7/image/upload/v1560733034/hibooksmock.png)
+![alt screenshot](https://res.cloudinary.com/diibyv2i7/image/upload/v1560733034/hibooksmock.png)
 
 ## Installations 
 Your must have Node.js and NPM installed to run this app locally
@@ -24,6 +24,7 @@ Your must have Node.js and NPM installed to run this app locally
 The following features were implemented.
 
 **Authentication & Authorization**
+
 This application uses json web token (jwt) to authenticate and authorize users on both client and server side. When a user succefully logs into the application, a unique jwt with a brief life span is generated on the server and sent to the client, which is stored on the client and must be used to making subsequent server calls.
 
 **Library Users**
