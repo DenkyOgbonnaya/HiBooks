@@ -5,6 +5,8 @@ Hibooks is a simple application that manages a library and it processes like sto
 
 *user= 'admin' pass= 'admin'*
 
+[! alt text](https://res.cloudinary.com/diibyv2i7/image/upload/v1560733034/hibooksmock.png)
+
 ## Installations 
 Your must have Node.js and NPM installed to run this app locally
 ```
@@ -20,10 +22,12 @@ Your must have Node.js and NPM installed to run this app locally
 
 ## Features
 The following features were implemented.
+
 **Authentication & Authorization**
 This application uses json web token (jwt) to authenticate and authorize users on both client and server side. When a user succefully logs into the application, a unique jwt with a brief life span is generated on the server and sent to the client, which is stored on the client and must be used to making subsequent server calls.
 
 **Library Users**
+
 Library users are able to:
 - Sign up to the application
 - Login 
@@ -35,6 +39,7 @@ Library users are able to:
 - Log out of the application
 
 **Library Admins**
+
 Library administrators enjoys all the privilages of a libraray user, and in addition can:
 - Add book, modify book information and delete books
 - Add category and categorize books
@@ -48,7 +53,7 @@ This application was built with the following technologies:
 - Reactstrap: Reactstrap provides a prebuilt Bootstrap 4 components that allow a great deal of flexibility,    this was use to build beautiful and responsive UI.
 - Node.js: Node.js is a server side javascript runtime environment for running javascript on the server.
 - Express.js: Express.js is a Node.js framework for builing RESTful apis.
--MongoDb/Mongoose: MongoDB is a cross-platform document oriented NoSQL database use to persist application data.
+- MongoDb/Mongoose: MongoDB is a cross-platform document oriented NoSQL database use to persist application data.
 
 ## Sample enviroment configurations
 - USER='me@gmail.com'
@@ -56,4 +61,5 @@ This application was built with the following technologies:
 - SECRET_KEY='mysecrerekey'
 - MDB_URL='mongodb://'DB_USER':'DB_PASS'@example.mlab.com:6923/hibooks'
 - DB_PASS='mlabpassword'
-Find more in the .env.sample file
+
+Find more in the .env.example file
